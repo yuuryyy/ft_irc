@@ -1,0 +1,9 @@
+-----------------------HERE ALL THE THINGS I NEED TO DO-----------------------
+    *understanding sockets ✅
+    *understanding sockets functions ✅
+    *ending the notes about sockets in tldraw ✅
+    *creating a mini IRC server
+    *setupping a client with the server
+
+
+---------------------HERE ALL THE THINGS I NEED TO HANDLE-----------------------

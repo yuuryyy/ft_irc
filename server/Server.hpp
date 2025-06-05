@@ -10,15 +10,19 @@
 #include <iostream>
 #include <unistd.h>
 #include <cstdlib>
+#include <cstring>
+#include <map>
+#include "Client.hpp"
+#include <fcntl.h> 
 
 class Server {
     private:
         int port;
         std::string password;
         int Socket_fd;
-        // std::vector<Client*> clients;
+        std::map<int, Client> client;
         // std::vector<Channel*> Channels;
-        std::vector<pollfd*> poll_fds; 
+        std::vector<pollfd> poll_fds;
 
     public:
         void start();
@@ -26,6 +30,8 @@ class Server {
         void running_server(int fd);
         void handle_new_connections();
         void handle_client_data();
+        void extract_cmds(std::string cmds);
 };
 
 #endif
+

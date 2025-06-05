@@ -30,7 +30,6 @@ class Server {
         void running_server(int fd);
         void handle_new_connections();
         void handle_client_data();
-        void extract_cmds(std::string cmds);
 };
 
 #endif

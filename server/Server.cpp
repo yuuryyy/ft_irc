@@ -14,7 +14,7 @@ int Server::server_socket(){
     if (bind(Socket_fd, (struct sockaddr *)&serverAdress, sizeof(serverAdress)) == -1){
         // perror("bind failed")
         close(Socket_fd);
-        exit(1);
+        exit(1); // replace all exit() by break or continue depends on situation
     }
 
     if (listen(Socket_fd, 15) == -1){
@@ -58,13 +58,11 @@ int Server::server_socket(){
                     }
                     else{
                         buffer[bytes] = '\0';
-                        client[poll_fds[i].fd].Buffer += buffer;
-                        std::string cmds = client[poll_fds[i].fd].Buffer;
-                        extract_cmds(cmds);
-                        // and then try to extract all complete commands and store them in messages
+                        client[poll_fds[i].fd].AddBuffer(buffer);
+                        client[poll_fds[i].fd].extract_cmds();
                         //handle_client_data(vector<std::string>);
-                        std::cout<< "Received : "<<buffer<< " from :" <<poll_fds[i].fd<<std::endl;
-                        // client[poll_fds[i].fd].Buffer = buffer; //later i will add a function for it
+                        std::cout<< "Received : "<<client[poll_fds[i].fd].getBuffer()<< " from :" <<poll_fds[i].fd<<std::endl;
+                        //i will split this code into small functions later
                     }
                 }
             }
@@ -72,14 +70,3 @@ int Server::server_socket(){
     }
 }
 
-void Server::extract_cmds(std::string cmds){
-    for(int i =0; i<cmds.length(); i++){
-        size_t pos = cmds.find("\r\n");
-        if (pos != std::string::pos){
-
-        }
-        else{
-            
-        }
-    }
-}

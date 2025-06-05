@@ -3,16 +3,20 @@
 
 #include<string>
 #include<map>
+#include <vector>
 
 class Client {
     private:
         std::string ip; // by inet_ntoa
         int port;  // by ntohs
         std::string Buffer;
-        vector<std::string> cmds; //to store all cmds ends with /r/n
+        std::vector<std::string> cmds; //to store all cmds ends with /r/n
         
     public:
-    void AddBuffer(const char *, int len);
+    std::string& getBuffer(void);
+    std::vector<std::string>& getCmds(void);
+    void AddBuffer(const char *buf);
+    void extract_cmds(void);
 
 };
 

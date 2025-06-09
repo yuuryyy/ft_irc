@@ -8,19 +8,19 @@ int Server::server_socket(){
 
     sockaddr_in serverAdress;
     serverAdress.sin_family = AF_INET;
-    serverAdress.sin_port = htons(6667); //check if this port is available
+    serverAdress.sin_port = htons(port); //check if this port is available
     serverAdress.sin_addr.s_addr = INADDR_ANY;
 
     if (bind(Socket_fd, (struct sockaddr *)&serverAdress, sizeof(serverAdress)) == -1){
-        // perror("bind failed")
+        std::cerr<<"failed bind"<<std::endl;
         close(Socket_fd);
-        exit(1); // replace all exit() by break or continue depends on situation
+        return(1); // replace all exit() by break or continue depends on situation
     }
 
     if (listen(Socket_fd, 15) == -1){
         // perror("listen failed")
         close(Socket_fd);
-        exit(1);
+        return(1);
     }
     //add the listening socket to the pollfd vector
     pollfd listen_fd;
@@ -31,6 +31,7 @@ int Server::server_socket(){
     while(true){
         int monitor = poll(poll_fds.data(), poll_fds.size(), -1);
         if (monitor < 0){
+            std::cerr<<"failed poll"<<std::endl;
             return(1);
         }
         for (size_t i=0 ; i < poll_fds.size() ; i++){
@@ -54,8 +55,9 @@ int Server::server_socket(){
                     if (bytes <= 0){
                         close(poll_fds[i].fd); //client deconnecte
                         std::cout<<"client : "<<poll_fds[i].fd<<" deconnecte"<<std::endl;
-                        //erase the specific client  client[poll_fds[i].fd]
+                        client.erase(poll_fds[i].fd);
                         poll_fds.erase(poll_fds.begin() + i);
+                        i--;
                     }
                     else{
                         buffer[bytes] = '\0';
@@ -134,4 +136,10 @@ void Server::commands_handler(std::vector<std::string> line){
     if (line[0] == "JOIN"){
         std::cout<<"join"<<std::endl;
     }
+}
+
+Server::Server(int _port , std::string _password): port(_port), password(_password){}
+
+Server::~Server(){
+    //destroy all pollfd
 }

@@ -27,6 +27,8 @@ class Server {
         // std::vector<std::string> line;
 
     public:
+        Server(int port , std::string password);
+        ~Server();
         void start(void);
         int server_socket(void);
         void running_server(int fd);

@@ -6,15 +6,22 @@ int Server::server_socket(){
     int flag = fcntl(Socket_fd, F_GETFL, 0);
     fcntl(Socket_fd, F_SETFL, flag | O_NONBLOCK);
 
+    int opt = 1;
+    if (setsockopt(Socket_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0){
+        std::cerr<<"failed setsockopt"<<std::endl;
+        close(Socket_fd);
+        return(1);
+    }
+
     sockaddr_in serverAdress;
     serverAdress.sin_family = AF_INET;
     serverAdress.sin_port = htons(port); //check if this port is available
     serverAdress.sin_addr.s_addr = INADDR_ANY;
 
-    if (bind(Socket_fd, (struct sockaddr *)&serverAdress, sizeof(serverAdress)) == -1){
+    if (bind(Socket_fd, (struct sockaddr *)&serverAdress, sizeof(serverAdress)) < 0){
         std::cerr<<"failed bind"<<std::endl;
         close(Socket_fd);
-        return(1); // replace all exit() by break or continue depends on situation
+        return(1); // replace all exit() by break or continue or return depends on situation
     }
 
     if (listen(Socket_fd, 15) == -1){

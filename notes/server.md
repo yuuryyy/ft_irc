@@ -28,9 +28,18 @@
 --> Join channel
 )
 
-
 ******** Channel doesn't exist
 
 ----> Create Channel
 ----> Join channel
 ----> set as operator
+
+
+
+
+========split========
+std::string jj
+stringstream buffer(line)
+std::getline(buffer, jj, ',');
+push jj to the vector of channels || keys depends on ...
+

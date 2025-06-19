@@ -53,8 +53,7 @@ void Server::commands_handler(){
             std::cout<<"PASS"<<std::endl;
             break;
         case 1:
-            std::cout<<"NICK"<<std::endl;//try catch throw
-
+            std::cout<<"NICK"<<std::endl;
             break;
         case 2:
             std::cout<<"USER"<<std::endl;
@@ -79,7 +78,6 @@ void Server::commands_handler(){
             break;
         default:
             std::cout<<"UNKNOWN"<<std::endl;
-
     }
     line.clear();
 }

@@ -1,6 +1,6 @@
 #include "Channel.hpp"
 
-Channel::Channel():Name(""), Password(""){
+Channel::Channel():Name(""), Password(""), paswrd(0){
 
 }
 
@@ -30,4 +30,12 @@ return members;
 
 std::vector<Client>& Channel::GetOps(void){
     return Ops;
+}
+
+bool Channel::GetBoolPswd(void){
+    return paswrd;
+}
+
+void Channel::SitBoolPswd(bool is){
+    paswrd = is;
 }

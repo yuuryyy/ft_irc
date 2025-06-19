@@ -21,6 +21,8 @@ class Client {
         std::vector<std::string>& getCmds(void);
         void AddBuffer(const char *buf);
         void extract_cmds(void);
+        std::string& GetUsername(void);
+        void SitUsername(std::string user);
 
 };
 

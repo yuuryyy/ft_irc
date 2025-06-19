@@ -24,3 +24,11 @@ void Client::extract_cmds(void){
         Buffer.erase(0, pos + 2);
     }
 }
+
+std::string& Client::GetUsername(void){
+    return username;
+}
+
+void Client::SitUsername(std::string user){
+    username = user;
+}

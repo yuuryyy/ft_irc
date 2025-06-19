@@ -14,10 +14,15 @@ void Server::handle_new_connections(int Socket_fd){
     new_fd.fd = new_socket;
     new_fd.events = POLLIN;
     poll_fds.push_back(new_fd);
+    /*
+    Client client;
+    client.fd = new_fd.fd;
+    */
     client[new_fd.fd] = Client();
 }
 
 void Server::handle_client_data(int fd){
+    currentClient = fd;
     std::vector<std::string>& cmd = client[fd].getCmds();
     for(size_t i=0; i< cmd.size(); i++){
         parse_cmd(cmd[i]);
@@ -26,8 +31,7 @@ void Server::handle_client_data(int fd){
 }
 
 void Server::initCmds(void){
-    cmd["PASS"] = PASS_cmd;//try catch throw
-
+    cmd["PASS"] = PASS_cmd;
     cmd["NICK"] = NICK_cmd;
     cmd["USER"] = USER_cmd;
     cmd["JOIN"] = JOIN_cmd;

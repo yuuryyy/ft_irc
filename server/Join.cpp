@@ -13,6 +13,9 @@ int Server::JoinParse(std::vector<std::string> *channels, std::vector<std::strin
         std::cerr<<"specific replies"<<std::endl;
         return 0;
     }
+    if ((*channels).size() < (*keys).size()){
+        std::cerr<<"keys more that channels"<<std::endl;
+    }
     return 1;
 }
 
@@ -51,10 +54,30 @@ void Server::JOIN(void){
     std::vector<std::string> chans;
     std::vector<std::string> keys;
     JoinParse(&chans, &keys);
-    for(size_t i=0; i< chans.size(); i++){
-        std::cerr<<"channel : "<<chans[i]<<std::endl;
-    }
-    for(size_t i=0; i< keys.size(); i++){
-        std::cerr<<"key : "<< keys[i]<<std::endl;
+    // for(size_t i=0; i< chans.size(); i++){
+    //     std::cerr<<"channel : "<<chans[i]<<std::endl;
+    // }
+    // for(size_t i=0; i< keys.size(); i++){
+    //     std::cerr<<"key : "<< keys[i]<<std::endl;
+    // }
+    for (size_t i=0; i<chans.size(); i++){
+        if (!IsChannelExist(chans[i])){
+            std::cout<<"***start***"<<std::endl;
+            Channel Chan;
+            Client *membr = &client[currentClient];
+            Chan.SetName(chans[i]);
+            std::cout<<"***befoure pushing to members***"<<std::endl;
+            Chan.GetMembers().push_back(*membr);
+            std::cout<<"***befoure pushing to ops***"<<std::endl;
+            Chan.GetOps().push_back(*membr);
+            std::cout<<"***befoure pushing to channels***"<<std::endl;
+            channel.push_back(Chan);
+            std::cout<<"***end***"<<std::endl;
+        }
+        else{
+            std::cout<<"channel exist"<<std::endl;
+        }
     }
 }
+
+//vector of operators and push each operator +

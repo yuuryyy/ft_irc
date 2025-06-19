@@ -1,6 +1,6 @@
 #include "Channel.hpp"
 
-Channel::Channel():op(0),Name(""){
+Channel::Channel():Name(""), Password(""){
 
 }
 
@@ -8,8 +8,26 @@ Channel::~Channel(){
 
 }
 
-Channel::Channel(std::string name):op(0),Name(name){
+// Channel::Channel(std::string name):Name(name){
 
-}
+// }
 
 std::string& Channel::GetName(void){return Name;}
+
+void Channel::SetName(std::string& name){Name=name;}
+
+std::string& Channel::GetPassword(void){
+    return Password;
+}
+
+void Channel::SetPassword(std::string& password){
+    Password = password;
+}
+
+std::vector<Client>& Channel::GetMembers(void){
+return members;
+}
+
+std::vector<Client>& Channel::GetOps(void){
+    return Ops;
+}

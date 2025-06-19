@@ -35,6 +35,9 @@
 ----> set as operator
 
 
+(am i should check if that client is registered or not in each command or somewhere else that handle all other commands)
+
+
 
 
 ========split========

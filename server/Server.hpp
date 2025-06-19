@@ -39,6 +39,7 @@ class Server {
         std::string password;
         int Socket_fd;
         std::map<int, Client> client;
+        int currentClient;
         std::vector<Channel> channel;
         std::vector<pollfd> poll_fds;
         std::vector<std::string> line;

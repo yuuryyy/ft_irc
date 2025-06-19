@@ -11,12 +11,16 @@ class Client {
         int port;  // by ntohs
         std::string Buffer;
         std::vector<std::string> cmds; //to store all cmds ends with /r/n
+        bool registered;
+        bool Op;
+        std::string nick;
+        std::string username;
         
     public:
-    std::string& getBuffer(void);
-    std::vector<std::string>& getCmds(void);
-    void AddBuffer(const char *buf);
-    void extract_cmds(void);
+        std::string& getBuffer(void);
+        std::vector<std::string>& getCmds(void);
+        void AddBuffer(const char *buf);
+        void extract_cmds(void);
 
 };
 

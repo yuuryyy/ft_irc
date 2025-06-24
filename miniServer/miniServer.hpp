@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:35:18 by hmoukit           #+#    #+#             */
-/*   Updated: 2025/06/24 10:29:08 by hmoukit          ###   ########.fr       */
+/*   Updated: 2025/06/25 00:46:59 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <poll.h>
 # include <stdexcept>
 # include <unistd.h>
+# include <errno.h>
 
 class miniServer {
 private:
@@ -32,7 +33,8 @@ public:
     void start();                 // Calls serverSocket + run loop
 private:
     int serverSocket();           // Handles socket setup
-    void runServer(int fd); // Handles communication
+    // void runServer(int fd); // Handles communication
+    void handleClient(int clientFd);
 };
 
 

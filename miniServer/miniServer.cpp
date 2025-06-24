@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:35:10 by hmoukit           #+#    #+#             */
-/*   Updated: 2025/06/24 19:41:47 by hmoukit          ###   ########.fr       */
+/*   Updated: 2025/06/25 00:51:22 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,31 +57,19 @@ int miniServer::serverSocket()
     return (socketFd);
 }
 
-void miniServer::runServer(int socketFd)
-{
-    // Step 1: Accept one client only
-    sockaddr_in clientAddr;
-    socklen_t clientLen = sizeof(clientAddr);
-
-    std::cout << "Waiting for a client to connect..." << std::endl;
-
-    int clientFd = accept(socketFd, (sockaddr *)&clientAddr, &clientLen);
-    if (clientFd < 0)
-        throw std::runtime_error("ERROR: accept() failed");
-
+void miniServer::handleClient(int clientFd) {
     std::cout << "Client connected: " << clientFd << std::endl;
-    // Step 2: Set up poll for this client only
+    // Set up poll for this client
     pollfd clientPollFd;
     clientPollFd.fd = clientFd;
     clientPollFd.events = POLLIN;
-    // Wait and handle communication with just this one client
+    // Wait and handle communication with this client
     while (true)
     {
         int ret = poll(&clientPollFd, 1, -1);
         if (ret < 0)
             throw std::runtime_error("ERROR: poll() failed");
-        if (clientPollFd.revents & POLLIN)
-        {
+        if (clientPollFd.revents & POLLIN) {
             char buffer[1024] = {0};
             int bytes = recv(clientFd, buffer, sizeof(buffer) - 1, 0);
             if (bytes <= 0)
@@ -94,24 +82,32 @@ void miniServer::runServer(int socketFd)
             {
                 buffer[bytes] = '\0';
                 std::cout << "Received: " << buffer << std::endl;
-                // Optionally send something back
-                // send(clientFd, buffer, bytes, 0);
             }
         }
     }
-    std::cout << "Server shutting down after handling one client." << std::endl;
+    std::cout << "Finished handling client." << std::endl;
 }
 
 void miniServer::start() {
-    socketFd = serverSocket(); // sets up listening socket
-
+    socketFd = serverSocket();
     std::cout << "Server listening on port " << port << std::endl;
-    sockaddr_in clientAddr;
-    socklen_t len = sizeof(clientAddr);
-    int clientFd = accept(socketFd, (sockaddr*)&clientAddr, &len);
-    if (clientFd < 0)
-        throw std::runtime_error("ERROR: accept() failed");
-    runServer(clientFd);
+    // Use poll to wait for incoming connections
+    pollfd serverPollFd;
+    serverPollFd.fd = socketFd;
+    serverPollFd.events = POLLIN;
+    std::cout << "Waiting for a client to connect..." << std::endl;
+    // Wait for a connection to be available
+    int ret = poll(&serverPollFd, 1, -1); // -1 means wait indefinitely
+    if (ret < 0)
+        throw std::runtime_error("ERROR: poll() failed");
+    if (serverPollFd.revents & POLLIN) {
+        sockaddr_in clientAddr;
+        socklen_t len = sizeof(clientAddr);
+        int clientFd = accept(socketFd, (sockaddr*)&clientAddr, &len);
+        if (clientFd < 0)
+            throw std::runtime_error("ERROR: accept() failed");
+            
+        handleClient(clientFd);
+    }
     std::cout << "Shutting down server" << std::endl;
 }
-

@@ -6,11 +6,19 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:35:10 by hmoukit           #+#    #+#             */
-/*   Updated: 2025/06/21 14:19:58 by hmoukit          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:41:47 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniServer.hpp"
+
+miniServer::miniServer(int p) : socketFd(-1), port(p) {}
+
+miniServer::~miniServer() {
+    if (socketFd != -1)
+        close(socketFd);
+}
+
 
 int miniServer::serverSocket()
 {
@@ -46,87 +54,64 @@ int miniServer::serverSocket()
     // we listen for incoming TCP connections on this socket
     if (listen(socketFd, SOMAXCONN) < 0)
         throw std::runtime_error("ERROR: Problem in listen()");
-    // preparing to use poll syscall
-    pollfd pfd;
-    pfd.fd = socketFd;
-    pfd.events = POLLIN;
-    fdsVec.push_back(pfd);
     return (socketFd);
 }
 
-void miniServer::handleNewConnections(int socketFd){
-    sockaddr_in clientAdress;
-    socklen_t len = sizeof(clientAdress);
-    int new_socket = accept(socketFd, (struct sockaddr *) &clientAdress, &len);
-    if (new_socket < 0){
-        return ;
+void miniServer::runServer(int socketFd)
+{
+    // Step 1: Accept one client only
+    sockaddr_in clientAddr;
+    socklen_t clientLen = sizeof(clientAddr);
+
+    std::cout << "Waiting for a client to connect..." << std::endl;
+
+    int clientFd = accept(socketFd, (sockaddr *)&clientAddr, &clientLen);
+    if (clientFd < 0)
+        throw std::runtime_error("ERROR: accept() failed");
+
+    std::cout << "Client connected: " << clientFd << std::endl;
+    // Step 2: Set up poll for this client only
+    pollfd clientPollFd;
+    clientPollFd.fd = clientFd;
+    clientPollFd.events = POLLIN;
+    // Wait and handle communication with just this one client
+    while (true)
+    {
+        int ret = poll(&clientPollFd, 1, -1);
+        if (ret < 0)
+            throw std::runtime_error("ERROR: poll() failed");
+        if (clientPollFd.revents & POLLIN)
+        {
+            char buffer[1024] = {0};
+            int bytes = recv(clientFd, buffer, sizeof(buffer) - 1, 0);
+            if (bytes <= 0)
+            {
+                std::cout << "Client disconnected." << std::endl;
+                close(clientFd);
+                break;
+            }
+            else
+            {
+                buffer[bytes] = '\0';
+                std::cout << "Received: " << buffer << std::endl;
+                // Optionally send something back
+                // send(clientFd, buffer, bytes, 0);
+            }
+        }
     }
-    std::cout << "client connected" << std::endl;
-    int flags = fcntl(new_socket, F_GETFL, 0);
-    fcntl(new_socket, F_SETFL, flags | O_NONBLOCK);
-    pollfd new_fd;
-    new_fd.fd = new_socket;
-    new_fd.events = POLLIN;
-    fdsVec.push_back(new_fd);
-    /*
-    Client client;
-    client.fd = new_fd.fd;
-    */
-    // client[new_fd.fd] = Client();
+    std::cout << "Server shutting down after handling one client." << std::endl;
 }
 
-// void miniServer::handleClientData(int fd)
-// {
-//     currentClient = fd;
-//     std::vector<std::string>& cmd = client[fd].getCmds();
-//     for(size_t i=0; i< cmd.size(); i++){
-//         parse_cmd(cmd[i]);
-//     }
-//     cmd.clear();
-// }
+void miniServer::start() {
+    socketFd = serverSocket(); // sets up listening socket
 
-int miniServer::runningServer(int socketFd)
-{
-    constexpr size_t BUFFER_SIZE = 1024;
-    while (true) {
-        int monitor = poll(fdsVec.data(), fdsVec.size(), -1);
-        if (monitor < 0) {
-            if (errno == EINTR)
-                continue;
-            throw std::runtime_error("Error : Failed poll");
-        }
-
-        // Iterate in reverse to safely erase elements
-        for (int i = fdsVec.size() - 1; i >= 0; i--) {
-            short revents = fdsVec[i].revents;
-            if (revents & (POLLHUP | POLLERR | POLLNVAL)) {
-                close(fdsVec[i].fd);
-                std::cout << "Client " << fdsVec[i].fd << " disconnected (error/hangup)" << std::endl;
-                // client.erase(fdsVec[i].fd);
-                fdsVec.erase(fdsVec.begin() + i);
-                continue;
-            }
-
-            if (revents & POLLIN) {
-                if (fdsVec[i].fd == socketFd) {
-                    handleNewConnections(socketFd);
-                } else {
-                    char buffer[BUFFER_SIZE + 1] = {0};
-                    int bytes = recv(fdsVec[i].fd, buffer, BUFFER_SIZE, 0);
-                    if (bytes <= 0) {
-                        close(fdsVec[i].fd);
-                        std::cout << "Client " << fdsVec[i].fd << " disconnected" << std::endl;
-                        // client.erase(fdsVec[i].fd);
-                        fdsVec.erase(fdsVec.begin() + i);
-                    } else {
-                        buffer[bytes] = '\0';
-                        // client[fdsVec[i].fd].AddBuffer(buffer);
-                        // client[fdsVec[i].fd].extract_cmds();
-                        // handle_client_data(fdsVec[i].fd);
-                    }
-                }
-            }
-        }
-    }
+    std::cout << "Server listening on port " << port << std::endl;
+    sockaddr_in clientAddr;
+    socklen_t len = sizeof(clientAddr);
+    int clientFd = accept(socketFd, (sockaddr*)&clientAddr, &len);
+    if (clientFd < 0)
+        throw std::runtime_error("ERROR: accept() failed");
+    runServer(clientFd);
+    std::cout << "Shutting down server" << std::endl;
 }
 

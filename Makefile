@@ -6,13 +6,13 @@
 #    By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/26 02:35:14 by hmoukit           #+#    #+#              #
-#    Updated: 2025/06/20 21:01:00 by hmoukit          ###   ########.fr        #
+#    Updated: 2025/06/24 10:31:38 by hmoukit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = server
 
-SRCS = main.cpp miniServer.cpp
+SRCS = ./miniServer/miniServer.cpp main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

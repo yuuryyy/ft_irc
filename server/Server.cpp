@@ -92,7 +92,7 @@ int Server::start(){
     }
     catch (const std::exception& e){
         std::cerr << e.what() << std::endl;
-        return 1;
+         return 1;
     }
     try{
         if (running_server(socket_fd) < 0){

@@ -87,7 +87,7 @@ void Server::commands_handler(){
         default:
             std::cout<<"UNKNOWN"<<std::endl;
     }
-    line.clear();
+    this->_line.clear();
 }
 
 void Server::parse_cmd(std::string cmd){

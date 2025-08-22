@@ -92,18 +92,12 @@ int Server::start(){
     int socket_fd;
     try{
         socket_fd = server_socket();
+        if (running_server(socket_fd) < 0)
+            return(-1);// TODO: u dont return anything in running server
     }
     catch (const std::exception& e){
         std::cerr << e.what() << std::endl;
          return 1;
-    }
-    try{
-        if (running_server(socket_fd) < 0){
-            return(-1);
-        }
-    }
-    catch (const std::exception& e){
-        std::cerr <<e.what()<<std::endl;
     }
     return (1);
 }

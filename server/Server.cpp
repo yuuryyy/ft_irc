@@ -58,22 +58,25 @@ Server::running_server(int Socket_fd)
 
         for (size_t i = 0; i < this->_poll_fds.size(); i++)
         {
-            if (this->_poll_fds[i].revents & POLLIN){//checks if a pollin (data to read) event occured
-                if (this->_poll_fds[i].fd == Socket_fd){
+            if (this->_poll_fds[i].revents & POLLIN)//checks if a pollin (data to read) event occured
+            {
+                if (this->_poll_fds[i].fd == Socket_fd)// checking if fd whith the POLLIN event is the listening socket(new connection request)
                     handle_new_connections(_Socket_fd);
-                }
-                else{
+                else
+                {
                     char buffer[1048];
                     memset(buffer, 0, sizeof(buffer));
                     int bytes = recv(this->_poll_fds[i].fd, buffer, sizeof(buffer), 0);
-                    if (bytes <= 0){
+                    if (bytes <= 0)
+                    {
                         close(this->_poll_fds[i].fd);
-                        std::cout<<"client : "<<this->_poll_fds[i].fd<<" deconnected"<<std::endl;
+                        std::cout << "client : " <<this->_poll_fds[i].fd << " is disconnected!" <<std::endl;
                         _client.erase(this->_poll_fds[i].fd);
                         this->_poll_fds.erase(this->_poll_fds.begin() + i);
                         i--;
                     }
-                    else{
+                    else
+                    {
                         buffer[bytes] = '\0';
                         _client[this->_poll_fds[i].fd].AddBuffer(buffer);
                         _client[this->_poll_fds[i].fd].extract_cmds();

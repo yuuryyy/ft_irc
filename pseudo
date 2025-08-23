@@ -1,0 +1,14 @@
+TODO: MODE 
+
+can only be used by a channel operator.
+changes the channels mode:
+    +/-i: Set/remove Invite-only channel
+    +/-t: Set/remove the restrictions of the TOPIC command to channel
+        operators   
+    +/-K: Set/remove the channel key (password)
+    +/-O: Give/take channel operator privilege
+    +/-l: Set/remove the user limit to channel
+
+steps: 
+
+    

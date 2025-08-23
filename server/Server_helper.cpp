@@ -47,7 +47,7 @@ void Server::initCmds(void){
 }
 
 int Server::GetCmds(void){
-    std::map<std::string, Commands>::iterator it = cmd.find(line[0]);
+    std::map<std::string, Commands>::iterator it = this->_cmd.find(this->_line[0]);
     if (it != cmd.end()){
         return it->second;
     }

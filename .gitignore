@@ -7,7 +7,7 @@
 # *.slo
 # *.lo
 *.o
-*.gitignore
+# *.gitignore
 # *.obj
 
 # # Precompiled Headers

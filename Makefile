@@ -1,6 +1,6 @@
 NAME = ircserv
 HEADER=server/Server.hpp client/Client.hpp channel/Channel.hpp
-files = main.cpp server/Server.cpp client/Client.cpp server/Server_helper.cpp server/Join.cpp channel/Channel.cpp
+files = main.cpp server/Server.cpp client/Client.cpp server/Server_helper.cpp commands/Join.cpp channel/Channel.cpp commands/Pass.cpp
 obj := $(files:.cpp=.o)
 Cpp = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98

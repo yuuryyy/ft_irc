@@ -8,17 +8,22 @@
 class Client {
     private:
         std::string ip; // by inet_ntoa
-        int port;  // by ntohs
+        // int port;  // by ntohs
         std::string Buffer;
         std::vector<std::string> cmds; //to store all cmds ends with /r/n
-        bool registered;
-        bool Op;
+        bool registered; //default 0
+        bool isPassed; // defaul 0
+        // bool Op;
         std::string nick;
         std::string username;
         
     public:
         std::string& getBuffer(void);
         std::vector<std::string>& getCmds(void);
+        bool getregistered(void);
+        void setregistered(bool r);
+        bool getisPassed(void);
+        void setisPassed(bool s);
         void AddBuffer(const char *buf);
         void extract_cmds(void);
         std::string& GetUsername(void);

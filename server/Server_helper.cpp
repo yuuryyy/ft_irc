@@ -76,8 +76,10 @@ void Server::commands_handler(){
         case 8:
             std::cout<<"INVITE"<<std::endl;
             break;
-        default:
+        default:{
+            std::cout<< "unknown :" <<this->_line[1]<<std::endl;
             std::cout<<"UNKNOWN"<<std::endl;
+        }
     }
     _line.clear();
 }
@@ -117,7 +119,7 @@ void Server::parse_cmd(std::string cmd){
 }
 
 void Server::Sender(std::string num){
-    std::string to_client = ":localhost " + num + this->_client[this->_currentClient].getnick() + " :Welcome to our server\r\n";
+    std::string to_client = ":localhost" + num + this->_client[this->_currentClient].getnick() + " :Welcome to our server\r\n";
     size_t bytes = send(this->_currentClient, to_client.c_str(), to_client.length(), 0);
     if(bytes < 0){
         std::cerr<<"failed send data "<<std::endl;

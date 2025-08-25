@@ -9,12 +9,13 @@ class Client {
     private:
         std::string ip; // by inet_ntoa
         int port;  // by ntohs
-        std::string Buffer;
         std::vector<std::string> cmds; //to store all cmds ends with /r/n
         bool registered;
         bool Op;
         std::string nick;
         std::string username;
+        
+        std::string Buffer;
         
     public:
         std::string& getBuffer(void);

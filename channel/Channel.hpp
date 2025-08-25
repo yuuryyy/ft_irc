@@ -8,9 +8,11 @@ class Channel {
     private:
         std::string Name;
         std::string Password;
+        std::string _modes;
         bool paswrd;
         std::vector<Client> members;
         std::vector<Client> Ops;
+        uint                _capacityLimit;
         
     public:
         Channel();

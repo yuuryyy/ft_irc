@@ -77,7 +77,7 @@ Server::running_server(int Socket_fd)
                     if (bytes <= 0)
                     {
                         close(this->_poll_fds[i].fd);
-                        // std::cout << "client : " <<this->_poll_fds[i].fd << " is disconnected!" <<std::endl; //POLLHUP MEANS CLIENT CLOSE CONNECTION
+                        std::cout << "client : " <<this->_poll_fds[i].fd << " is disconnected!" <<std::endl;
                         _client.erase(this->_poll_fds[i].fd);
                         this->_poll_fds.erase(this->_poll_fds.begin() + i);
                         i--;
@@ -113,3 +113,5 @@ Server::checkErr(const int res, const int err, const char *msg)
         throw std::runtime_error(msg);
     return ;
 }
+
+//signals :

@@ -1,25 +1,27 @@
 #include "Server.hpp"
 
-void Server::handle_new_connections(int Socket_fd){
+void
+Server::handle_new_connections(int Socket_fd)
+{
     sockaddr_in clientAdress;
-    socklen_t len = sizeof(clientAdress);
-    int new_socket = accept(Socket_fd, (struct sockaddr *) &clientAdress, &len);
-    if (new_socket < 0){
-        throw std::runtime_error("accept failed");
-    }
-    std::cout<<"client connected"<<std::endl;
-    fcntl(new_socket, F_SETFL | O_NONBLOCK);
-    
+    socklen_t   len = sizeof(clientAdress);
+
+    int         new_socket = accept(Socket_fd, (struct sockaddr *) &clientAdress, &len);//accepting the incoming request    
+    checkErr(new_socket, -1, "failed to accept new connection!");
+    std::cout << "client connected" << std::endl;
+
+    checkErr(fcntl(new_socket, F_SETFL, O_NONBLOCK), -1, "failed to add file flags!");
+
     pollfd new_fd;
     new_fd.fd = new_socket;
     new_fd.events = POLLIN;
-    _poll_fds.push_back(new_fd);
-    _client[new_fd.fd] = Client();
+    this->_poll_fds.push_back(new_fd);
+    this->_client[new_fd.fd] = Client();
 }
 
 void Server::handle_client_data(int fd){
-    _currentClient = fd;
-    std::vector<std::string>& cmd = _client[fd].getCmds();
+    this->_currentClient = fd;
+    std::vector<std::string>& cmd = this->_client[fd].getCmds();
     for(size_t i=0; i< cmd.size(); i++){
         parse_cmd(cmd[i]);
     }
@@ -27,20 +29,20 @@ void Server::handle_client_data(int fd){
 }
 
 void Server::initCmds(void){
-    _cmd["PASS"] = PASS_cmd;
-    _cmd["NICK"] = NICK_cmd;
-    _cmd["USER"] = USER_cmd;
-    _cmd["JOIN"] = JOIN_cmd;
-    _cmd["PART"] = PART_cmd;
-    _cmd["MODE"] = MODE_cmd;
-    _cmd["TOPIC"] = TOPIC_cmd;
-    _cmd["KICK"] = KICK_cmd;
-    _cmd["INVITE"] = INVITE_cmd;
+    this->_cmd["PASS"] = PASS_cmd;
+    this->_cmd["NICK"] = NICK_cmd;
+    this->_cmd["USER"] = USER_cmd;
+    this->_cmd["JOIN"] = JOIN_cmd;
+    this->_cmd["PART"] = PART_cmd;
+    this->_cmd["MODE"] = MODE_cmd;
+    this->_cmd["TOPIC"] = TOPIC_cmd;
+    this->_cmd["KICK"] = KICK_cmd;
+    this->_cmd["INVITE"] = INVITE_cmd;
 }
 
 int Server::GetCmds(void){
-    std::map<std::string, Commands>::iterator it = _cmd.find(_line[0]);
-    if (it != _cmd.end()){
+    std::map<std::string, Commands>::iterator it = this->_cmd.find(this->_line[0]);
+    if (it != this->_cmd.end()){
         return it->second;
     }
     return UNKNOWN_cmd;
@@ -81,16 +83,17 @@ void Server::commands_handler(){
             std::cout<<"UNKNOWN"<<std::endl;
         }
     }
-    _line.clear();
+    this->_line.clear();
 }
 
 void Server::parse_cmd(std::string cmd){
 
-    std::string message = "";
-    std::string prefix = "";
-    std::string command = "";
-    std::string target = "";
-    size_t pos = cmd.find(" :");
+    std::string message;
+    std::string prefix;
+    std::string command;
+    std::string target;
+    size_t      pos = cmd.find(" :");
+
     if (pos != std::string::npos){
         message = cmd.substr(pos + 2);
         cmd.erase(pos);
@@ -102,17 +105,17 @@ void Server::parse_cmd(std::string cmd){
     }
     bf>>command;
     if (!command.empty()){
-        _line.push_back(command);
+        this->_line.push_back(command);
     }
     if (!message.empty()){
-        _line.push_back(message);
+        this->_line.push_back(message);
     }
     if (!prefix.empty()){
-        _line.push_back(prefix);
+        this->_line.push_back(prefix);
     }
     while(bf>>target){
         if (!target.empty()){
-            _line.push_back(target);
+            this->_line.push_back(target);
         }
     }
     commands_handler();

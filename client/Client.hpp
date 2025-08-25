@@ -13,9 +13,11 @@ class Client {
         std::vector<std::string> cmds; //to store all cmds ends with /r/n
         bool registered; //default 0
         bool isPassed; // defaul 0
+        int reg_done;
         // bool Op;
-        std::string nick;
+        std::string nickname;
         std::string username;
+        std::string realname;
         
     public:
         std::string& getBuffer(void);
@@ -28,6 +30,14 @@ class Client {
         void extract_cmds(void);
         std::string& GetUsername(void);
         void SitUsername(std::string user);
+        void setreg(void);
+        int getreg(void);
+        std::string getnick(void);
+        void setnick(std::string nick);
+        std::string getuser(void);
+        void setuser(std::string user);
+        void setrealname(std::string real);
+        std::string getrealname(void);
 
 };
 

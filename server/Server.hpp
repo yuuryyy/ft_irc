@@ -76,6 +76,15 @@ class Server
             void        PASS(void);
 
             void        NICK(void);
+            bool        Nickparse(void);
+            bool        firstChar(void);
+            bool        AlreadyInUse(void);
+            bool        otherChar(void);
+
+            void        USER(void);
+
+            void        Sender(std::string num);
+
 };
 
 #endif

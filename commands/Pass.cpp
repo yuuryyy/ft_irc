@@ -15,4 +15,5 @@ void Server::PASS(void){
 		return ;
 	}
 	this->_client[this->_currentClient].setisPassed(1);
+	this->_client[this->_currentClient].setreg();
 }

@@ -53,10 +53,10 @@ void Server::commands_handler(){
             PASS();
             break;
         case 1:
-            std::cout<<"NICK"<<std::endl;
+            NICK();
             break;
         case 2:
-            std::cout<<"USER"<<std::endl;
+            USER();
             break;
         case 3:
             JOIN();
@@ -114,4 +114,12 @@ void Server::parse_cmd(std::string cmd){
         }
     }
     commands_handler();
+}
+
+void Server::Sender(std::string num){
+    std::string to_client = ":localhost " + num + this->_client[this->_currentClient].getnick() + " :Welcome to our server\r\n";
+    size_t bytes = send(this->_currentClient, to_client.c_str(), to_client.length(), 0);
+    if(bytes < 0){
+        std::cerr<<"failed send data "<<std::endl;
+    }
 }

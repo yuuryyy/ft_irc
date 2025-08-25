@@ -48,3 +48,30 @@ void Client::setisPassed(bool p){
 void Client::setregistered(bool r){
     this->registered = r;
 }
+
+void Client::setreg(void){
+    this->reg_done++;
+}
+
+int Client::getreg(void){
+    return this->reg_done;
+}
+
+std::string Client::getnick(void){
+    return this->nickname;
+}
+void Client::setnick(std::string nick){
+    this->nickname = nick;
+}
+std::string Client::getuser(void){
+    return this->username;
+}
+void Client::setuser(std::string user){
+    this->username = user;
+}
+void Client::setrealname(std::string real){
+    this->realname = real;
+}
+std::string Client::getrealname(void){
+    return this->realname;
+}

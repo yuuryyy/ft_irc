@@ -69,7 +69,7 @@ class Server
             int     JoinParse(std::vector<std::string> *channels, std::vector<std::string> *keys);
             void    JOIN(void);
 
-        //     void    modeParse()
+            void    MODE(const std::string& cmd, )
 
             int     IsChannelExist(std::string ChanName);
             int     split(std::vector<std::string> *channels, std::string& chan, char delimiter);

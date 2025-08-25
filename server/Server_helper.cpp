@@ -96,7 +96,8 @@ void Server::parse_cmd(std::string cmd){
     std::string prefix;
     std::string command;
     std::string target;
-    size_t pos = cmd.find(" :");
+    size_t      pos = cmd.find(" :");
+
     if (pos != std::string::npos){
         message = cmd.substr(pos + 2);
         cmd.erase(pos);

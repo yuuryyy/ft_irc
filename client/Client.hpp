@@ -14,7 +14,6 @@ class Client {
         bool Op;
         std::string nick;
         std::string username;
-        
         std::string Buffer;
         
     public:

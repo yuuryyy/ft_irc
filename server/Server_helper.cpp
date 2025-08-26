@@ -128,3 +128,13 @@ void Server::Sender(std::string num){
         std::cerr<<"failed send data "<<std::endl;
     }
 }
+
+void Server::cleaner(void){
+    for(size_t i=0; i < this->_poll_fds.size(); i++){
+        close(this->_poll_fds[i].fd);
+        _client.erase(this->_poll_fds[i].fd);
+        this->_poll_fds.erase(this->_poll_fds.begin() + i);
+        i--;
+    }
+    exit(1);
+}

@@ -52,6 +52,7 @@ class Server
             Server(uint port , std::string password);
             ~Server();
             void     start(void);
+            static void        Handler(int sig);
     
     private :
 
@@ -84,6 +85,8 @@ class Server
             void        USER(void);
 
             void        Sender(std::string num);
+
+            void        cleaner(void);
 
 };
 

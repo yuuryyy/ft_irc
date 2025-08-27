@@ -1,16 +1,16 @@
 NAME	= ircserv
 
-HEADER	=	server/Server.hpp\
-			client/Client.hpp \
-			channel/Channel.hpp \
-			./Inc/numericalReplies.hpp\
+HEADER	=	./Inc/Server.hpp        \
+			./Inc/Client.hpp  \
+			./Inc/Channel.hpp \
+			./Inc/numericalReplies.hpp \
 
 files	=	main.cpp \
 			server/Server.cpp \
-			client/Client.cpp \
 			server/Server_helper.cpp\
-			commands/Join.cpp \
+			client/Client.cpp \
 			channel/Channel.cpp\
+			commands/Join.cpp \
  			commands/Pass.cpp \
 			commands/Nick.cpp \
 			commands/User.cpp \
@@ -20,15 +20,16 @@ obj		:= $(files:.cpp=.o)
 
 Cpp		= c++
 
-FLAGS	= -Wall -Wextra -Werror -std=c++98 -I./Inc
+FLAGS	=  -Wall -Wextra -Werror -std=c++98  -I./Inc
 
 all : $(NAME)
 
-$(NAME) : $(obj)
-		$(Cpp) $(FLAGS) -o $@ $^
 
-%.o:%.cpp $(HEADER)
-		$(Cpp) $(FLAGS) -c $< -o $@
+$(NAME) : $(obj)
+	@$(Cpp) $(FLAGS) $(obj) $(LIBRARY) -o $(NAME)
+
+%.o: %.cpp $(HEADER)
+	$(Cpp) $(FLAGS) -c $< -o $@
 
 clean:
 		rm -rf $(obj)
@@ -36,7 +37,7 @@ clean:
 fclean: clean
 		rm -rf $(NAME)
 
-re: fclean all4
+re: fclean all
 
 commit:
 	git add .

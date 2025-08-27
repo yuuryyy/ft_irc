@@ -1,4 +1,5 @@
 #include "Server.hpp"
+#include "Channel.hpp"
 
 void
 Server::handle_new_connections(int Socket_fd)
@@ -61,7 +62,7 @@ void Server::commands_handler(){
             USER();
             break;
         case 3:
-            JOIN();
+            // JOIN();
             break;
         case 4:
             std::cout<<"PART"<<std::endl;
@@ -132,10 +133,12 @@ Server::sendErr(const reply code, const std::string cmdName)
 {
     // thsi function append errors and replies to the client's buffer
 
-    std::string reply = ":" + this->_serverName 
+    std::string reply = ":" + this->_serverName + " " + cmdName
                         + " " + code.code + " "
                         + this->_client[this->_currentClient].getnick()
                         + " :" + code.msg + "\r\n";
     
-    this->_client[this->_currentClient].AddBuffer(reply.c_str());
+    size_t bytes = send(this->_currentClient, reply.c_str(), reply.length(), 0);
+    if(bytes < 0)
+        std::cerr<<"failed send data "<<std::endl;
 }

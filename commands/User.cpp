@@ -1,4 +1,4 @@
-#include "../server/Server.hpp"
+#include "Server.hpp"
 
 void Server::USER(void){
 	// for(size_t i=0; i < this->_line.size(); i++){

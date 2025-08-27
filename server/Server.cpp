@@ -1,4 +1,6 @@
 #include "Server.hpp"
+#include "Channel.hpp"
+
 
 Server::Server(uint port , std::string password): _port(port), _password(password)
 {

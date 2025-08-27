@@ -1,4 +1,4 @@
-#include "../server/Server.hpp"
+#include "Server.hpp"
 
 
 bool Server::AlreadyInUse(void){

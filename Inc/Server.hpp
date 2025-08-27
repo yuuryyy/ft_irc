@@ -12,14 +12,16 @@
 #include <cstdlib>
 #include <cstring>
 #include <map>
-#include "../client/Client.hpp"
+#include "Client.hpp"
 #include <fcntl.h>
 #include <sstream>
 #include <stdexcept>
-#include "../channel/Channel.hpp"
+// #include "Channel.hpp"
 #include <algorithm>
 
 #include "numericalReplies.hpp"
+// #include "Channel.hpp"
+class Channel;
 
 enum Commands {
     PASS_cmd,
@@ -69,12 +71,12 @@ class Server
             void        initCmds(void);
             int         GetCmds(void);
     
-            int         IsChannelExist(std::string ChanName);
+        //     bool         IsChannelExist(std::string ChanName);
             int         split(std::vector<std::string> *channels, std::string& chan, char delimiter);
             void        checkErr(const int res, const int err, const char *msg);
 
-            int         JoinParse(std::vector<std::string> *channels, std::vector<std::string> *keys);
-            void        JOIN(void);
+        //     int         JoinParse(std::vector<std::string> *channels, std::vector<std::string> *keys);
+        //     void        JOIN(void);
 
             void        PASS(void);
 
@@ -87,10 +89,12 @@ class Server
             void        USER(void);
 
             void        MODE( void );
+            bool        channelExist( const std::string &name ) const;
 
             void        Sender(std::string num);
             void        sendErr(const reply code, const std::string cmdName);
 
 };
+
 
 #endif

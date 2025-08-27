@@ -1,4 +1,4 @@
-#include "../server/Server.hpp"
+#include "Server.hpp"
 
 void Server::PASS(void){
 	if (this->_client[this->_currentClient].getregistered()){

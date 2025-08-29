@@ -9,7 +9,7 @@ Server::Server(uint port , std::string password): _port(port), _password(passwor
 
 Server::~Server()
 {
-    //destroy all pollfd
+   cleaner();
 }
 
 int 

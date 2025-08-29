@@ -13,6 +13,7 @@
 #include <cstring>
 #include <map>
 #include "../client/Client.hpp"
+#include "numericalReplies.hpp"
 #include <fcntl.h>
 #include <sstream>
 #include <stdexcept>
@@ -46,6 +47,7 @@ class Server
             std::vector<pollfd>             _poll_fds;
             std::vector<std::string>        _line;
             std::map<std::string, Commands> _cmd;//TODO: better add pointer to the command handler instead
+            std::string                     _serverName;
 
     public:
 
@@ -84,9 +86,11 @@ class Server
 
             void        USER(void);
 
-            void        Sender(std::string num);
-
             void        cleaner(void);
+            void        OneClean(void);
+            bool        findit(pollfd p);
+
+            void        sendErr(const reply code, const std::string cmdName);
 
 };
 

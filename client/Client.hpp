@@ -19,8 +19,10 @@ class Client {
         std::string nickname;
         std::string username;
         std::string realname;
-        
+    
     public:
+        Client();
+        ~Client();
         std::string& getBuffer(void);
         std::vector<std::string>& getCmds(void);
         bool getregistered(void);

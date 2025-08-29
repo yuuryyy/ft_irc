@@ -79,11 +79,16 @@ Server::running_server(int Socket_fd)
                     int bytes = recv(this->_poll_fds[i].fd, buffer, sizeof(buffer), 0);
                     if (bytes <= 0)
                     {
+                        //     if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                        //     std::cout<<"no data"<<std::endl;
+                        //     }
+                        // else {
                         close(this->_poll_fds[i].fd);
-                        std::cout << "client : " <<this->_poll_fds[i].fd << " is disconnected!" <<std::endl;
+                        std::cout<<  " -> client : " <<this->_poll_fds[i].fd << " is disconnected!" <<std::endl;
                         _client.erase(this->_poll_fds[i].fd);
                         this->_poll_fds.erase(this->_poll_fds.begin() + i);
                         i--;
+                        // }
                     }
                     else
                     {

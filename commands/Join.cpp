@@ -6,11 +6,11 @@
 //         std::cerr<<"Error join"<<std::endl;
 //         return 0;
 //     }
-//     if (!split(channels, this->_line[1], ',')){
+//     if (!ft_split(channels, this->_line[1], ',')){
 //         std::cerr<<"specific replies"<<std::endl;
 //         return 0;
 //     }
-//     if (this->_line.size() == 3 && !split(keys, this->_line[2], ',')){
+//     if (this->_line.size() == 3 && !ft_split(keys, this->_line[2], ',')){
 //         std::cerr<<"specific replies"<<std::endl;
 //         return 0;
 //     }
@@ -20,7 +20,7 @@
 //     return 1;
 // }
 
-int Server::split(std::vector<std::string> *channels, std::string& chans, char delimiter){
+int Server::ft_split(std::vector<std::string> *channels, std::string& chans, char delimiter){
     std::stringstream line(chans);
     if (chans[chans.find_last_not_of(" \t") ] == delimiter){return 0;}
     std::string chan;

@@ -15,6 +15,7 @@ files	=	main.cpp \
 			commands/Nick.cpp \
 			commands/User.cpp \
 			commands/mode/mode.cpp\
+			commands/mode/utils.cpp\
 
 obj		:= $(files:.cpp=.o)
 

@@ -38,7 +38,7 @@
 
 
 
-========split========
+========ft_split========
 std::string jj
 stringstream buffer(line)
 std::getline(buffer, jj, ',');

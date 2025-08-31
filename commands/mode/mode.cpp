@@ -6,7 +6,7 @@
 /*   By: ychagri <ychagri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:55:22 by ychagri           #+#    #+#             */
-/*   Updated: 2025/08/27 04:44:40 by ychagri          ###   ########.fr       */
+/*   Updated: 2025/08/31 00:50:42 by ychagri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void
 Server::MODE( void )
 {
     if (this->_line.size() < 2)
-        return (this->sendErr(ERR_NEEDMOREPARAMS, "MODE"));
+        return (this->sendErr(makeReply(ERR_NEEDMOREPARAMS), "MODE"));
     
     // else if (this->)
 

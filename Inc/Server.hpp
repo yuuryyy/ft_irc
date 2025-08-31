@@ -16,7 +16,6 @@
 #include <fcntl.h>
 #include <sstream>
 #include <stdexcept>
-// #include "Channel.hpp"
 #include <algorithm>
 
 #include "numericalReplies.hpp"
@@ -72,7 +71,7 @@ class Server
             int         GetCmds(void);
     
         //     bool         IsChannelExist(std::string ChanName);
-            int         split(std::vector<std::string> *channels, std::string& chan, char delimiter);
+            int         ft_split(std::vector<std::string> *channels, std::string& chan, char delimiter);
             void        checkErr(const int res, const int err, const char *msg);
 
         //     int         JoinParse(std::vector<std::string> *channels, std::vector<std::string> *keys);
@@ -92,9 +91,10 @@ class Server
             bool        channelExist( const std::string &name ) const;
 
             void        Sender(std::string num);
-            void        sendErr(const reply code, const std::string cmdName);
+            void        sendErr(const reply &code, const std::string &cmdName);
 
 };
 
+#include "Channel.hpp"
 
 #endif

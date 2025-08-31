@@ -129,16 +129,16 @@ void Server::Sender(std::string num){
 }
 
 void
-Server::sendErr(const reply code, const std::string cmdName)
+Server::sendErr(const reply &code, const std::string &cmdName)
 {
     // thsi function append errors and replies to the client's buffer
 
-    std::string reply = ":" + this->_serverName + " " + cmdName
+    std::string rep = ":" + this->_serverName + " " + cmdName
                         + " " + code.code + " "
                         + this->_client[this->_currentClient].getnick()
                         + " :" + code.msg + "\r\n";
     
-    size_t bytes = send(this->_currentClient, reply.c_str(), reply.length(), 0);
+    size_t bytes = send(this->_currentClient, rep.c_str(), rep.length(), 0);
     if(bytes < 0)
-        std::cerr<<"failed send data "<<std::endl;
+        std::cerr<<"Error: Failed send data !"<<std::endl;
 }

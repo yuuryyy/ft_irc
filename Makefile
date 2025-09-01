@@ -40,11 +40,11 @@ fclean: clean
 
 re: fclean all
 
-commit:
+commit: fclean
 	git add .
 	git commit -m "$(filter-out $@, $(MAKECMDGOALS))"  
 
-push:
+push: fclean
 	git add .
 	git status
 	git commit -m "$(filter-out $@, $(MAKECMDGOALS))"

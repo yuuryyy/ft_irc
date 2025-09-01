@@ -51,6 +51,9 @@ class Server
             std::map<std::string, Commands> _cmd;//TODO: better add pointer to the command handler instead
 
             std::string                     _serverName;
+
+            typedef std::map<std::string, Channel>::iterator it;
+
     public:
 
             Server(uint port , std::string password);
@@ -88,10 +91,10 @@ class Server
             void        USER(void);
 
             void        MODE( void );
-            bool        channelExist( const std::string &name ) const;
+            Channel*     channelExist( const std::string &name );
 
             void        Sender(std::string num);
-            void        sendErr(const reply &code, const std::string &cmdName);
+            void        sendReply( const std::string& reply);
 
 };
 

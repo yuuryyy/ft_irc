@@ -121,24 +121,18 @@ void Server::parse_cmd(std::string cmd){
 }
 
 void Server::Sender(std::string num){
-    std::string to_client = ":localhost " + num + this->_client[this->_currentClient].getnick() + " :Welcome to our server\r\n";
-    size_t bytes = send(this->_currentClient, to_client.c_str(), to_client.length(), 0);
+    std::string to_client   = ":localhost " + num + this->_client[this->_currentClient].getnick() + " :Welcome to our server\r\n";
+    int         bytes       = send(this->_currentClient, to_client.c_str(), to_client.length(), 0);
     if(bytes < 0){
         std::cerr<<"failed send data "<<std::endl;
     }
 }
 
 void
-Server::sendErr(const reply &code, const std::string &cmdName)
+Server::sendReply(const std::string& reply)
 {
-    // thsi function append errors and replies to the client's buffer
-
-    std::string rep = ":" + this->_serverName + " " + cmdName
-                        + " " + code.code + " "
-                        + this->_client[this->_currentClient].getnick()
-                        + " :" + code.msg + "\r\n";
     
-    size_t bytes = send(this->_currentClient, rep.c_str(), rep.length(), 0);
+    int         bytes = send(this->_currentClient, reply.c_str(), reply.length(), 0);
     if(bytes < 0)
         std::cerr<<"Error: Failed send data !"<<std::endl;
 }

@@ -107,11 +107,11 @@ void
 Channel::setCapacityLimit( const std::string &num )
 {
     std::stringstream   extract(num);
-    uint                i;
+    int                 i;
 
     if ((extract >> i) && extract.eof())
     {
-        if (i >= 0 && i >= this->getMembersCount())
+        if (i >= 0 && i >= static_cast<int>(this->getMembersCount()))
         {
             this->_capacityLimit = i;
             this->triggerMode("+", "l", this->is_userLimited(), this->_l);

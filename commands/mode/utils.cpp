@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rambeau <rambeau@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ychagri <ychagri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/01 08:45:48 by rambeau           #+#    #+#             */
-/*   Updated: 2025/09/01 08:45:49 by rambeau          ###   ########.fr       */
+/*   Created: 2025/09/02 12:36:25 by ychagri           #+#    #+#             */
+/*   Updated: 2025/09/02 16:14:02 by ychagri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,3 +27,11 @@ std::vector<std::string>    ftSplit(const std::string& str, const char del)
     return tokens;
 }
 
+char    validModeString( const char &mode )
+{
+    std::string validModes("itkol");
+    if (validModes.find(mode) == std::string::npos)
+         return mode;
+
+    return (0);
+}

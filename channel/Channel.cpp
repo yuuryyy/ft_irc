@@ -3,6 +3,7 @@
 Channel::Channel():Name("default") , _capacityLimit(-1), _membersCount(0)
 , _i(false), _t(false), _k(false), _l(false)
 {
+    this->_creationTime = std::time(NULL);
     // this->_members.clear();
     // this->_Ops.clear();
 }
@@ -52,6 +53,17 @@ Channel::is_Op( const std::string &name ) const
     return (it != this->_Ops.end()) ? true : false;
 }
 
+
+bool
+Channel::is_Member( const std::string &name ) const
+{
+    std::map<std::string, Client>::const_iterator it = this->_members.find(name);
+
+    return (it != this->_members.end()) ? true : false;
+}
+
+
+
 bool
 Channel::is_restrectedTopic( void )const
 {
@@ -75,14 +87,14 @@ Channel::is_keyed( void )const
 }
 
 void
-Channel::addModes( const std::string &mode )
+Channel::addModes( const char &mode )
 {
     this->_modes += mode;
 }
 
-void Channel::rmMode(const std::string &mode)
+void Channel::rmMode(const char &mode)
 {
-    std::string::size_type pos = this->_modes.find(mode[0]);
+    std::string::size_type pos = this->_modes.find(mode);
     if (pos != std::string::npos) {
         this->_modes.erase(pos, 1); 
     }
@@ -111,26 +123,54 @@ Channel::setCapacityLimit( const std::string &num )
 
     if ((extract >> i) && extract.eof())
     {
-        if (i >= 0 && i >= static_cast<int>(this->getMembersCount()))
+        if (i >= 0)
         {
             this->_capacityLimit = i;
-            this->triggerMode("+", "l", this->is_userLimited(), this->_l);
+            this->triggerMode('+', 'l', this->is_userLimited(), this->_l);
         }
 
     }
         
 }
 
+void
+Channel::set_i( char flag)
+{
+    triggerMode(flag, 'i', this->is_inviteOnly(), this->_i);
+}
 
 void
-Channel::triggerMode( const std::string flag , const std::string mode, const bool isMode, bool &toTrigger )
+Channel::set_t( char flag)
 {
-    if (flag == "+" && !isMode)
+    triggerMode(flag, 't', this->is_restrectedTopic(), this->_t);
+}
+
+void
+Channel::set_k( char flag, const std::string &pass)
+{
+    triggerMode(flag, 'k', this->is_keyed(), this->_k);
+    if (flag == '+')
+        this->setKey(pass);
+    else
+        this->setKey("");
+
+}
+
+// void
+// Channel::set_o( char flag )
+// {
+//     triggerMode(flag, 'o', this->is_restrectedTopic(), this->_);
+// }
+
+void
+Channel::triggerMode( const char flag , const char mode, const bool isMode, bool &toTrigger )
+{
+    if (flag == '+' && !isMode)
     {
         this->addModes(mode);
         toTrigger = true;
     }
-    else if (flag == "-" && isMode)
+    else if (flag == '-' && isMode)
     {
         this->rmMode(mode);
         toTrigger = false;
@@ -156,4 +196,10 @@ void Channel::SetName(std::string& name){Name=name;}
 
 std::string& Channel::GetPassword(void){
     return Password;
+}
+
+std::time_t
+Channel::getTime( void )const
+{
+    return this->_creationTime;
 }

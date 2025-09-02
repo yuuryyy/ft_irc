@@ -4,6 +4,7 @@
 #include <string>
 #include "Client.hpp"
 #include "Server.hpp"
+#include <ctime>
 
 
 class Channel {
@@ -11,7 +12,7 @@ class Channel {
         std::string Name;
         std::string Password;
 
-        uint                                    _creationTime;
+        std::time_t                             _creationTime;
         int                                     _capacityLimit;
         uint                                    _membersCount;
         std::map<std::string, Client>           _members;
@@ -22,6 +23,7 @@ class Channel {
         bool                                    _t;
         bool                                    _k;
         bool                                    _l;
+
         
         const std::map<std::string, Client >&    GetMembers(void) const;
         const std::map<std::string, Client >&    GetOps(void) const;
@@ -30,33 +32,40 @@ class Channel {
         int                                     getCapacityLimit( void ) const;
         uint                                    getMembersCount( void ) const;
         
-        bool                                    is_Op( const std::string &name ) const;
         bool                                    is_restrectedTopic( void ) const;
         bool                                    is_userLimited( void ) const;
         bool                                    is_inviteOnly( void ) const;
         bool                                    is_keyed( void ) const;
         
         
-        void                                    addModes( const std::string &mode );
-        void                                    rmMode(const std::string &mode );
+        void                                    setKey( const std::string &password ) ;
+        void                                    addModes( const char &mode );
+        void                                    rmMode(const char &mode );
         void                                    addOps( Client &newOp );
         
-        void                                    setKey( const std::string &password ) ;
-        void                                    setCapacityLimit( const std::string  &num );
-        
-        void                                    triggerMode( const std::string flag , const std::string mode, const bool isMode, bool &toTrigger ) ;
+        void                                    triggerMode( const char flag , const char mode, const bool isMode, bool &toTrigger ) ;
         
         void                                    incrementCount( void );
         void                                    decrementCount( void );
         
-        public:
+    public:
         
         Channel();
         Channel( const std::string name );
         ~Channel();
         
+        bool                                     is_Op( const std::string &name ) const;
+        bool                                     is_Member( const std::string &name ) const;
+
         std::string                              getModes( void ) const;
-        const   uint                             getTime( void )const;
+        std::time_t                              getTime( void )const;
+
+        void                                    set_i( char flag );
+        void                                    set_t( char flag );
+        void                                    set_k( char flag,  const std::string &pass);
+        void                                    set_o( char flag );
+
+        void                                    setCapacityLimit( const std::string  &num );
 
         std::string& GetName(void);
         void SetName(std::string& name);

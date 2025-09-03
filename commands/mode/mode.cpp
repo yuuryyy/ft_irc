@@ -6,7 +6,7 @@
 /*   By: ychagri <ychagri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:55:22 by ychagri           #+#    #+#             */
-/*   Updated: 2025/09/02 17:30:55 by ychagri          ###   ########.fr       */
+/*   Updated: 2025/09/03 10:53:52 by ychagri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ Server::MODE( void )
                             break;
                         }
                     case 'o':
-                        channel->    
+                        // channel->
                     
                     
                 

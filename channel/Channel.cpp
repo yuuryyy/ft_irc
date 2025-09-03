@@ -11,6 +11,7 @@ Channel::Channel():Name("default") , _capacityLimit(-1), _membersCount(0)
 Channel::Channel( const std::string name ): Name(name), _capacityLimit(-1), _membersCount(0)
 , _i(false), _t(false), _k(false), _l(false)
 {
+    this->_creationTime = std::time(NULL);
     // this->_members.clear();
     // this->_Ops.clear();
 }

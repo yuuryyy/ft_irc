@@ -10,17 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniServer/miniServer.hpp"
 
-int main()
-{
-    try
-    {
-        miniServer server(6667);
-        server.start();
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-}
+
+// #include "miniServer/miniServer.hpp"
+
+// int main()
+// {
+//     try
+//     {
+//         miniServer server(6667);
+//         server.start();
+//     }
+//     catch (const std::exception& e)
+//     {
+//         std::cerr << e.what() << std::endl;
+//     }
+// }

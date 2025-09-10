@@ -41,7 +41,6 @@ class Channel {
         void                                    setKey( const std::string &password ) ;
         void                                    addModes( const char &mode );
         void                                    rmMode(const char &mode );
-        void                                    addOps( Client &newOp );
         void                                    rmOps( Client &newOp );
         
         void                                    triggerMode( const char flag , const char mode, const bool isMode, bool &toTrigger ) ;
@@ -52,7 +51,7 @@ class Channel {
         typedef std::map<std::string, Client >::const_iterator    constmap_it;
         typedef std::map<std::string, Client >::iterator           map_it;
         
-    public:
+        public:
         
         Channel();
         Channel( const std::string name );
@@ -60,6 +59,9 @@ class Channel {
         
         bool                                     is_Op( const std::string &name ) const;
         bool                                     is_Member( const std::string &name ) const;
+        
+        void                                     addMember(Client &client);
+        void                                     addOps( Client &newOp );
         
         std::string                              getModes( void ) const;
         std::time_t                              getTime( void )const;

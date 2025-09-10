@@ -198,11 +198,9 @@
 #include "Server.hpp"
 #include "Channel.hpp"
 
-// This function is for temporary testing only.
-// It lacks full error handling and IRC replies.
+
 void Server::JOIN(void) {
     if (_line.size() < 2) {
-        // Not enough parameters, but for a temporary function, we can just return.
         return;
     }
 
@@ -220,10 +218,9 @@ void Server::JOIN(void) {
         // Channel exists. Add the client to it.
         // We'll skip complex password or invite checks for now.
         channel->addMember(client);
-        std::cout << "Client " << client.getNickname() << " joined existing channel " << channel_name << std::endl;
+        std::cout << "Client " << client.getnick() << " joined existing channel " << channel_name << std::endl;
         // Optionally send a JOIN message back to the client
-        // This part is crucial for testing.
-        std::string join_msg = ":" + client.getNickname() + " JOIN :" + channel_name;
+        std::string join_msg = ":" + client.getnick() + " JOIN :" + channel_name;
         sendReply(client.getFd(), join_msg + "\r\n");
 
     } else {
@@ -233,10 +230,10 @@ void Server::JOIN(void) {
         new_channel.addOps(client); // Make the first user an operator.
 
         _channel[channel_name] = new_channel;
-        std::cout << "Client " << client.getNickname() << " created and joined new channel " << channel_name << std::endl;
+        std::cout << "Client " << client.getnick() << " created and joined new channel " << channel_name << std::endl;
 
         // Send a JOIN message to the client.
-        std::string join_msg = ":" + client.getNickname() + " JOIN :" + channel_name;
+        std::string join_msg = ":" + client.getnick() + " JOIN :" + channel_name;
         sendReply(client.getFd(), join_msg + "\r\n");
     }
 }

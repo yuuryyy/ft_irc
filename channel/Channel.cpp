@@ -117,6 +117,13 @@ Channel::rmOps( Client &newOp )
 }
 
 void
+Channel::addMember(Client &client)
+{
+    this->_members[client.getnick()] = client;
+}
+
+
+void
 Channel::setKey( const std::string &password )
 {
     this->Password = password;

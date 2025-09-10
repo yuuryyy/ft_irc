@@ -23,8 +23,8 @@ Server::server_socket() //TODO: might set the dual socket ipv6 and 4 later
     // int flag = fcntl(this->_Socket_fd, F_GETFL, 0);// get the socket flags to append other flags after without affecting them
     // checkErr(flag, -1, "Error: Failed to get server socket status flag!");
 
-    err = fcntl(this->_Socket_fd, F_SETFL | O_NONBLOCK);// setting the socket to non blocking for concurrency
-    checkErr(err, -1, "Error: Failed to set socket flag!");
+    // err = fcntl(this->_Socket_fd, F_SETFL | O_NONBLOCK);// setting the socket to non blocking for concurrency
+    // checkErr(err, -1, "Error: Failed to set socket flag!");
 
     int opt = 1;
     err = setsockopt(this->_Socket_fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));// Allowing multiple sockets to bind to the same address and port

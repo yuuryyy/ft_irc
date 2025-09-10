@@ -95,7 +95,7 @@ class Server
             void                sendReply(int fd,  const std::string& reply);
             Channel*            channelExist( const std::string &name );
             Client*             userExist( const std::string &nick);
-            const std::string   &parseMode();
+            const std::string   parseMode( void );
             void                MODE( void );
 
             void        Sender(std::string num);

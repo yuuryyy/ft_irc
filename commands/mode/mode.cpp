@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychagri <ychagri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: youssra-chagri <youssra-chagri@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:55:22 by ychagri           #+#    #+#             */
-/*   Updated: 2025/09/08 14:04:23 by ychagri          ###   ########.fr       */
+/*   Updated: 2025/09/09 12:15:41 by youssra-cha      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,120 +34,119 @@ Server::userExist( const std::string &name )
 }
 
 
-// const std::string&
-// Server::parseMode()
-// {
-//     int         fd      = this->_currentClient;
-//     std::string nick    = this->_client[fd].getnick();
-//     size_t      size    = this->_line.size();
+const std::string
+Server::parseMode( void )
+{
+    int         fd      = this->_currentClient;
+    std::string nick    = this->_client[fd].getnick();
+    size_t      size    = this->_line.size();
 
-//     if ( size < 2)
-//         return ERR_NEEDMOREPARAMS(nick, "MODE");
+    if ( size < 2)
+        return ERR_NEEDMOREPARAMS(nick, "MODE");
     
-//     Channel     *channel = channelExist(this->_line[1]);
-//     if (!channel)
-//         return ERR_NOSUCHCHANNEL(nick, this->_line[1]);
+    Channel     *channel = channelExist(this->_line[1]);
+    if (!channel)
+        return ERR_NOSUCHCHANNEL(nick, this->_line[1]);
     
-//     std::string chName = channel->GetName();
-//     if (size == 2)
-//     {
-//         std::string time = std::to_string(channel->getTime());
-//         return  RPL_CHANNELMODEIS(nick,chName , channel->getModes()) +
-//                 RPL_CREATIONTIME(nick, chName, time);
-//     }
+    std::string chName = channel->GetName();
+    if (size == 2)
+    {
+        std::string time = to_string<time_t>(channel->getTime());
+        return  RPL_CHANNELMODEIS(nick,chName , channel->getModes()) +
+                RPL_CREATIONTIME(nick, chName, time);
+    }
 
-//     int count = 2;
-//     std::string modes("lko");
+    int count = 2;
+    std::string modes("lko");
 
-//     for (size_t i = 0; i < this->_line[3].length(); i++)
-//     {
-//         if (modes.find(this->_line[3][i]))
-//         {
-//             count++;
-//             if ((this->_line[3][i] == 'l' || this->_line[3][i] == 'o') 
-//                 && (int)size < count + 1)
-//                 return  ERR_NEEDMOREPARAMS(nick, "MODE");
-//         }
-//         else if (validModeString(this->_line[3][i]) == -1)
-//             return ERR_UNKNOWNMODE(nick, this->_line[3][i]);
+    for (size_t i = 0; i < this->_line[3].length(); i++)
+    {
+        if (modes.find(this->_line[3][i]))
+        {
+            count++;
+            if ((this->_line[3][i] == 'l' || this->_line[3][i] == 'o') 
+                && (int)size < count + 1)
+                return  ERR_NEEDMOREPARAMS(nick, "MODE");
+        }
+        else if (validModeString(this->_line[3][i]) == -1)
+            return ERR_UNKNOWNMODE(nick, this->_line[3][i]);
         
-//     }
+    }
 
-//     if (!channel->is_Op(nick))
-//         return ERR_CHANOPRIVSNEEDED(nick, chName);
+    if (!channel->is_Op(nick))
+        return ERR_CHANOPRIVSNEEDED(nick, chName);
 
-//     return "";
-// }
+    return "";
+}
 
 
-// void
-// Server::MODE( void )
-// {
+void
+Server::MODE( void )
+{
     
-//     std::string pareseReply = this->parseMode();
-//     if (!pareseReply.empty())
-//         return sendReply(this->_currentClient, pareseReply);
+    std::string pareseReply = this->parseMode();
+    if (!pareseReply.empty())
+        return sendReply(this->_currentClient, pareseReply);
 
-//     int         fd = this->_currentClient;
-//     std::string nick = this->_client[fd].getnick();
-//     size_t      size = this->_line.size();
-//     std::string modestring(this->_line[3]);
-//     Channel     *channel = channelExist(this->_line[1]);
-//     char        flag = '+';
-//     int         count = 2;
-//     bool        f = false;
+    int         fd = this->_currentClient;
+    std::string nick = this->_client[fd].getnick();
+    size_t      size = this->_line.size();
+    std::string modestring(this->_line[3]);
+    Channel     *channel = channelExist(this->_line[1]);
+    char        flag = '+';
+    int         count = 2;
+    bool        f = false;
     
-//     for (size_t i = 0; i < modestring.length(); i++)
-//     {
-//         while (modestring[i] && (modestring[i] == '+' || modestring[i] == '-'))
-//         {
-//             flag = modestring[i];
-//             i++;
-//             f = true;
-//         }
-//         if (f)
-//             channel->changedModes+= flag;
-//         switch (modestring[i])
-//         {
-//             case 'i': channel->set_i(flag); break;
-//             case 't': channel->set_t(flag); break;
-//             case 'k':
-//                 {
+    for (size_t i = 0; i < modestring.length(); i++)
+    {
+        while (modestring[i] && (modestring[i] == '+' || modestring[i] == '-'))
+        {
+            flag = modestring[i];
+            i++;
+            f = true;
+        }
+        if (f)
+            channel->changedModes+= flag;
+        switch (modestring[i])
+        {
+            case 'i': channel->set_i(flag); break;
+            case 't': channel->set_t(flag); break;
+            case 'k':
+                {
 
-//                     count++;
-//                     if ((int)size >= count + 1)
-//                         channel->set_k(flag, this->_line[count]);
-//                     break;
-//                 }
-//             case 'o':
-//                 {
-//                     count++;
-//                     if ((int)size < count + 1)
-//                             sendReply(fd, ERR_NEEDMOREPARAMS(nick, "MODE " + flag + "o"));        
-//                      else
-//                      {
-//                         Client  *op = this->userExist(this->_line[count]);
-//                         if (op)
-//                             if (!channel->set_o(flag, *op))
-//                                 sendReply(fd, ERR_USERNOTINCHANNEL(nick,  this->_line[count], channel->GetName()));
-//                          else
-//                                 sendReply(fd, ERR_NOSUCHNICK(nick, this->_line[count]));
-//                     }
-//                     break;                 
-//                 }
-//             case 'l':
-//                 {
-//                     count++;
-//                     if ((int)size < count + 1)
-//                             sendReply(fd, ERR_NEEDMOREPARAMS(nick, "MODE " + flag + "l"));
-//                     else
-//                         channel->set_l(flag, this->_line[count]);
-//                 }
-//                 break;
+                    count++;
+                    if ((int)size >= count + 1)
+                        channel->set_k(flag, this->_line[count]);
+                    break;
+                }
+            case 'o':
+                {
+                    count++;
+                    if ((int)size < count + 1)
+                            sendReply(fd, ERR_NEEDMOREPARAMS(nick, "MODE " + flag + "o"));        
+                    else
+                    {
+                        Client  *op = this->userExist(this->_line[count]);
+                        if (op && !channel->set_o(flag, *op))
+                                sendReply(fd, ERR_USERNOTINCHANNEL(nick,  this->_line[count], channel->GetName()));
+                         else
+                                sendReply(fd, ERR_NOSUCHNICK(nick, this->_line[count]));
+                    }
+                    break;                 
+                }
+            case 'l':
+                {
+                    count++;
+                    if ((int)size < count + 1)
+                            sendReply(fd, ERR_NEEDMOREPARAMS(nick, "MODE " + flag + "l"));
+                    else
+                        channel->set_l(flag, this->_line[count]);
+                }
+                break;
         
-//         }
+        }
         
-//     }
+    }
             
 
-// }
+}

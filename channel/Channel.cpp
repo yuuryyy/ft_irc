@@ -120,7 +120,7 @@ void
 Channel::setKey( const std::string &password )
 {
     this->Password = password;
-    this->args+= password + " ";
+    this->args+=" " + password;
 }
 
 void
@@ -135,6 +135,7 @@ Channel::setCapacityLimit( const std::string &num )
         {
             this->_capacityLimit = i;
             this->triggerMode('+', 'l', this->is_userLimited(), this->_l);
+            this->args += " " + i;
         }
 
     }
@@ -175,6 +176,9 @@ Channel::set_o( char flag, Client &op )
         addOps(op);
     else
         rmOps(op);
+
+    this->changedModes += "o";
+    this->args += " " + name;
     return true;
 }
 
@@ -204,10 +208,12 @@ Channel::triggerMode( const char flag , const char mode, const bool isMode, bool
     }
     else if (flag == '-' && isMode)
     {
-        this->changedModes+= mode;;
+        this->changedModes+= mode;
         this->rmMode(mode);
         toTrigger = false;
     }
+    else if (mode != 'i' && mode != 't')
+        this->changedModes += mode;
 
 }
 
@@ -237,12 +243,12 @@ Channel::getTime( void )const
     return this->_creationTime;
 }
 
-// void
-// Channel::broadcastReply(const std::string &reply)
-// {
-//     std::map<std::string, Client>   members = this->GetMembers();
-//     constmap_it                     clients = members.begin();
+void
+Channel::broadcastReply(const std::string &reply)
+{
+    std::map<std::string, Client>   members = this->GetMembers();
+    constmap_it                     clients = members.begin();
 
-//     for (; clients !=  members.end(); clients++)
-//         Server::sendReply(clients->second.getFd(), )
-// }
+    for (; clients !=  members.end(); clients++)
+        Server::sendReply(clients->second.getFd(), reply);
+}

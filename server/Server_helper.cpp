@@ -62,13 +62,13 @@ void Server::commands_handler(){
             USER();
             break;
         case 3:
-            // JOIN();
+            JOIN();
             break;
         case 4:
             std::cout<<"PART"<<std::endl;
             break;
         case 5:
-            std::cout<<"MODE"<<std::endl;
+            MODE();
             break;
         case 6:
             std::cout<<"TOPIC"<<std::endl;

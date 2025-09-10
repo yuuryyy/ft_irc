@@ -61,7 +61,9 @@ class Server
             Server(uint port , std::string password);
             ~Server();
             void     start(void);
-    
+            
+            static void                sendReply(int fd,  const std::string& reply);
+
     private :
 
             int         server_socket(void);
@@ -79,7 +81,7 @@ class Server
             int         ft_split(std::vector<std::string> *channels, std::string& chan, char delimiter);
 
         //     int         JoinParse(std::vector<std::string> *channels, std::vector<std::string> *keys);
-        //     void        JOIN(void);
+            void        JOIN(void);
 
             void        PASS(void);
 
@@ -92,7 +94,6 @@ class Server
             void        USER(void);
 
             void                checkErr(const int res, const int err, const char *msg);
-            void                sendReply(int fd,  const std::string& reply);
             Channel*            channelExist( const std::string &name );
             Client*             userExist( const std::string &nick);
             const std::string   parseMode( void );

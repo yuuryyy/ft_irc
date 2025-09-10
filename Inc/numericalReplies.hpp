@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numericalReplies.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youssra-chagri <youssra-chagri@student.    +#+  +:+       +#+        */
+/*   By: ychagri <ychagri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:17:18 by ychagri           #+#    #+#             */
-/*   Updated: 2025/09/09 12:08:43 by youssra-cha      ###   ########.fr       */
+/*   Updated: 2025/09/10 13:05:02 by ychagri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 #define ERR_NOTONCHANNEL(clnt, chnl)                ":"  SERVERNAME " 442 " + clnt + " " + chnl + " :You're not on that channel\r\n"
 #define ERR_NOSUCHNICK(clnt,nkname)                 ":"  SERVERNAME " 401 " + clnt + " " + nkname + " :No such nick\r\n"
 #define ERR_USERNOTINCHANNEL(clnt, nkname, chnl)    ":"  SERVERNAME " 441 " + clnt + " " + nkname + " " +chnl + " :They aren't on that channel\r\n" 
+#define RPL_MODE(chnl, mod, args)                   ":"  SERVERNAME " MODE "+ chnl + " " + mod + args + "\r\n"
+
 
 char    validModeString( char mode );
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youssra-chagri <youssra-chagri@student.    +#+  +:+       +#+        */
+/*   By: ychagri <ychagri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:55:22 by ychagri           #+#    #+#             */
-/*   Updated: 2025/09/09 12:15:41 by youssra-cha      ###   ########.fr       */
+/*   Updated: 2025/09/10 13:05:18 by ychagri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,21 @@ Server::parseMode( void )
 
     int count = 2;
     std::string modes("lko");
+    char        flag = '+';
 
     for (size_t i = 0; i < this->_line[3].length(); i++)
     {
         if (modes.find(this->_line[3][i]))
         {
             count++;
-            if ((this->_line[3][i] == 'l' || this->_line[3][i] == 'o') 
+            if (((this->_line[3][i] == 'l' && flag == '+')|| this->_line[3][i] == 'o') 
                 && (int)size < count + 1)
                 return  ERR_NEEDMOREPARAMS(nick, "MODE");
         }
         else if (validModeString(this->_line[3][i]) == -1)
             return ERR_UNKNOWNMODE(nick, this->_line[3][i]);
-        
+        else if (this->_line[3][i] == '+' || this->_line[3][i] == '-')
+            flag = this->_line[3][i];
     }
 
     if (!channel->is_Op(nick))
@@ -112,41 +114,33 @@ Server::MODE( void )
             case 'i': channel->set_i(flag); break;
             case 't': channel->set_t(flag); break;
             case 'k':
-                {
-
-                    count++;
-                    if ((int)size >= count + 1)
-                        channel->set_k(flag, this->_line[count]);
-                    break;
-                }
-            case 'o':
-                {
-                    count++;
-                    if ((int)size < count + 1)
-                            sendReply(fd, ERR_NEEDMOREPARAMS(nick, "MODE " + flag + "o"));        
-                    else
-                    {
-                        Client  *op = this->userExist(this->_line[count]);
-                        if (op && !channel->set_o(flag, *op))
-                                sendReply(fd, ERR_USERNOTINCHANNEL(nick,  this->_line[count], channel->GetName()));
-                         else
-                                sendReply(fd, ERR_NOSUCHNICK(nick, this->_line[count]));
-                    }
-                    break;                 
-                }
-            case 'l':
-                {
-                    count++;
-                    if ((int)size < count + 1)
-                            sendReply(fd, ERR_NEEDMOREPARAMS(nick, "MODE " + flag + "l"));
-                    else
-                        channel->set_l(flag, this->_line[count]);
-                }
+            {
+                count++;
+                if ((int)size >= count + 1)
+                    channel->set_k(flag, this->_line[count]);
                 break;
+            }
+            case 'o':
+            {
+                count++;
+                Client  *op = this->userExist(this->_line[count]);
+                if (op && !channel->set_o(flag, *op))
+                        sendReply(fd, ERR_USERNOTINCHANNEL(nick,  this->_line[count], channel->GetName()));
+                 else if (!op)
+                        sendReply(fd, ERR_NOSUCHNICK(nick, this->_line[count]));
+                break;                 
+            }
+            case 'l':
+            {
+                count++;
+                channel->set_l(flag, this->_line[count]);
+                break;
+            }
         
         }
         
     }
-            
+
+    channel->broadcastReply(RPL_MODE(channel->GetName(), channel->changedModes, channel->args));
 
 }

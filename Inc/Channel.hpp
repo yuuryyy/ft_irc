@@ -52,7 +52,7 @@ class Channel {
         typedef std::map<std::string, Client >::const_iterator    constmap_it;
         typedef std::map<std::string, Client >::iterator           map_it;
         
-        public:
+    public:
         
         Channel();
         Channel( const std::string name );

@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-volatile sig_atomic_t flag = 0;
+// volatile sig_atomic_t flag = 0;
 
 Server::Server(uint port , std::string password): _port(port), _password(password)
 {
@@ -20,11 +20,11 @@ Server::server_socket() //TODO: might set the dual socket ipv6 and 4 later
     this->_Socket_fd = socket(AF_INET, SOCK_STREAM, 0);// setting server socket with tcp connection and ipv4 
     checkErr(this->_Socket_fd , -1, "Error: Failed to create server socket!");
     //check if the errno == EINTR
-
-    // int flag = fcntl(this->_Socket_fd, F_GETFL, 0);// get the socket flags to append other flags after without affecting them
-    // checkErr(flag, -1, "Error: Failed to get server socket status flag!");
-
-    err = fcntl(this->_Socket_fd, F_SETFL | O_NONBLOCK);// setting the socket to non blocking for concurrency
+    
+    int flag = fcntl(this->_Socket_fd, F_GETFL, 0);// get the socket flags to append other flags after without affecting them
+    checkErr(flag, -1, "Error: Failed to get server socket status flag!");
+    flag |= O_NONBLOCK; 
+    err = fcntl(this->_Socket_fd, F_SETFL , flag);// setting the socket to non blocking for concurrency
     checkErr(err, -1, "Error: Failed to set socket flag!");
 
     int opt = 1;
@@ -54,7 +54,8 @@ Server::server_socket() //TODO: might set the dual socket ipv6 and 4 later
 void
 Server::running_server(int Socket_fd)
 {
-    while(!flag)
+    // while(!flag)
+    while(true)
     {
         int monitor = poll(this->_poll_fds.data(), this->_poll_fds.size(), -1);//poll to monitor multiple fds without i/o blocking
         checkErr(monitor, -1, "Error : Failed poll");
@@ -101,7 +102,7 @@ Server::running_server(int Socket_fd)
             }
         }
     }
-    cleaner();
+    // cleaner();
 }
 
 void Server::start(){
@@ -123,6 +124,6 @@ Server::checkErr(const int res, const int err, const char *msg)
     return ;
 }
 
-void Server::Handler(int){
-    flag = 1;
-}
+// void Server::Handler(int){
+//     flag = 1;
+// }

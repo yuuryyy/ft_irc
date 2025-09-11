@@ -150,10 +150,12 @@ void Server::sendErr(const reply code, const std::string cmdName){
                         + cmdName + " "
                         + this->_client[this->_currentClient].getnick()
                         + " :" + code.msg + "\r\n";
-    size_t bytes = send(this->_currentClient, reply.c_str(), reply.length(), 0);
-    if(bytes < 0){
-        std::cerr<<"failed send data "<<std::endl;
-    }
+            send(this->_currentClient, reply.c_str(), reply.length(), 0);
+    // size_t bytes = send(this->_currentClient, reply.c_str(), reply.length(), 0);
+
+    // if(bytes < 0){
+    //     std::cerr<<"failed send data "<<std::endl;
+    // }
 }
 
 bool Server::findit(pollfd p){

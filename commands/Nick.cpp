@@ -18,7 +18,8 @@ bool Server::firstChar(void){
 
 bool Server::otherChar(void){
 	std::string except = "QWERTYUIOPLKJHGFDSAZXCVBNMqwertyuioplkjhgfdsazxcvbnm[]\\`_^{|}123456789-";
-	for (size_t i=1; i < this->_line[i].length(); i++){
+	for (size_t i=1; i < this->_line[1].size(); i++){
+		std::cout<<"["<< this->_line[1]<< "] : " << "("<< this->_line[1][i]<< ")  : " <<i<< "  :  "<< this->_line[i].size() <<std::endl;
 		if (except.find(this->_line[1][i]) == std::string::npos){
 			return false;
 		}
@@ -31,6 +32,7 @@ bool Server::Nickparse(void){
 		return false;
 	}
 	if (!firstChar() || !otherChar()){
+		std::cout<<"here"<<std::endl;
 		return false;
 	}
 	return true;

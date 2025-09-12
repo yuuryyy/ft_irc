@@ -143,7 +143,7 @@ void Server::cleaner(void){
     exit(1);
 }
 
-void Server::sendErr(const reply code, const std::string cmdName){
+void Server::sendReply(const reply code, const std::string cmdName){
     // thsi function append errors and replies to the client's buffer
 
     std::string reply = ":localhost " 

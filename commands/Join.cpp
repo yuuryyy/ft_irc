@@ -35,18 +35,21 @@
 
 int Server::JoinParse(std::vector<std::string> *channels, std::vector<std::string> *keys){
     
+    std::string nick    = this->_client[this->_currentClient].getnick();
+    int         fd      = this->_currentClient;
+
     if (this->_line.size()<=1){
         std::cerr<<"Error join"<<std::endl;
-        sendErr(ERR_NEEDMOREPARAMS, "");
+        sendReply(fd, ERR_NEEDMOREPARAMS(nick, "JOIN"));
         return 0;
     }
-    if (!split(channels, this->_line[1], ',')){
-        sendErr(ERR_NEEDMOREPARAMS, "");
+    if (!ft_split(channels, this->_line[1], ',')){
+        sendReply(fd, ERR_NEEDMOREPARAMS(nick, "JOIN"));
         // std::cerr<<"specific replies"<<std::endl;
         return 0;
     }
-    if (this->_line.size() == 3 && !split(keys, this->_line[2], ',')){
-        sendErr(ERR_NEEDMOREPARAMS, "");
+    if (this->_line.size() == 3 && !ft_split(keys, this->_line[2], ',')){
+        sendReply(fd, ERR_NEEDMOREPARAMS(nick, "JOIN"));
         return 0;
     }
     // if ((*channels).size() < (*keys).size()){
@@ -55,7 +58,7 @@ int Server::JoinParse(std::vector<std::string> *channels, std::vector<std::strin
     return 1;
 }
 
-int Server::split(std::vector<std::string> *channels, std::string& chans, char delimiter){
+int Server::ft_split(std::vector<std::string> *channels, std::string& chans, char delimiter){
     std::stringstream line(chans);
     if (chans[chans.find_last_not_of(" \t") ] == delimiter){return 0;}
     std::string chan;
@@ -67,7 +70,7 @@ int Server::split(std::vector<std::string> *channels, std::string& chans, char d
             chan.clear();
         }
         else{
-            // sendErr(ERR_NEEDMOREPARAMS, "");
+            // sendReply(ERR_NEEDMOREPARAMS, "");
             // std::cerr<<"Error parsing in join"<<std::endl;
             chans.clear();
             return 0;
@@ -77,14 +80,14 @@ int Server::split(std::vector<std::string> *channels, std::string& chans, char d
     return 1;
 }
 
-// int Server::IsChannelExist(std::string ChanName){
-//     for(size_t i=0; i < this->_channel.size(); i++){
-//         if (this->_channel[i].GetName() == ChanName){
-//             return i + 1;
-//         }
-//     }
-//     return 0;
-// }
+int Server::IsChannelExist(std::string ChanName){
+    for(size_t i=0; i < this->_channel.size(); i++){
+        if (this->_channel[i].GetName() == ChanName){
+            return i + 1;
+        }
+    }
+    return 0;
+}
 
 void Server::JOIN(void){
     std::vector<std::string> chans;
@@ -98,6 +101,10 @@ void Server::JOIN(void){
     // for(size_t i=0; i< keys.size(); i++){
     //     std::cerr<<"key : "<< keys[i]<<std::endl;
     // }
+        
+    std::string nick    = this->_client[this->_currentClient].getnick();
+    int         fd      = this->_currentClient;
+
     for (size_t i=0; i<chans.size(); i++){
         size_t index = IsChannelExist(chans[i]);
         if (index <= 0){ // channel doesn't exist in _channel vector
@@ -108,7 +115,7 @@ void Server::JOIN(void){
             Chan.GetOps().push_back(*membr);
             this->_channel.push_back(Chan); // limits of channel in server
             // std::cout<<Chan.GetName()<<std::endl;
-            sendErr(RPL_JOIN, "");
+            sendReply(fd, RPL_JOIN(nick, chans[i]));
             return ;
         }
         else{ //channel exist // check for active bans and if it invite only 
@@ -117,16 +124,16 @@ void Server::JOIN(void){
                     Client *membr = &this->_client[this->_currentClient]; // index position of exist channel in channel vector
                     this->_channel[index - 1].GetMembers().push_back(*membr);
                     // std::cout<<"channel exist with correct password"<<std::endl;
-                        sendErr(RPL_JOIN, "");
+                    // sendReply(fd, RPL_JOIN(nick, ));//put channel name after fixing struct
                 }
                 else {
                     if (i >= keys.size()){
                         // std::cout<<"specific reply for no password"<<std::endl;
-                        sendErr(ERR_NEEDMOREPARAMS, "");
+                        sendReply(fd, ERR_NEEDMOREPARAMS(nick, "JOIN"));
                         return ;
                     }
                     else {
-                        sendErr(ERR_BADCHANNELKEY, "");
+                        // sendReply(fd, ERR_BADCHANNELKEY(nick, ));//put channel name after fixing struct
                         return ;
                         // std::cout<<"specific reply for password not matched"<<std::endl;
                     }
@@ -136,7 +143,7 @@ void Server::JOIN(void){
                 Client *membr = &this->_client[this->_currentClient];
                 this->_channel[index - 1].GetMembers().push_back(*membr);
                 std::cout<<"channel exist witout password : "<<this->_channel[index - 1].GetName()<<std::endl;
-                sendErr(RPL_JOIN, "");
+                // sendReply(fd, RPL_JOIN(nick, chans[i]));//put channel name after fixing struct
             }
         }
     }

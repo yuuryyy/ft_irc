@@ -78,7 +78,7 @@ class Server
             void        initCmds(void);
             int         GetCmds(void);
     
-        //     bool         IsChannelExist(std::string ChanName);
+            int         IsChannelExist(std::string ChanName);
             int         ft_split(std::vector<std::string> *channels, std::string& chan, char delimiter);
 
             int         JoinParse(std::vector<std::string> *channels, std::vector<std::string> *keys);
@@ -105,7 +105,7 @@ class Server
             bool        findit(pollfd p);
 
             void        Sender(std::string num);
-            void        sendErr(const reply code, const std::string cmdName);
+            void        sendReply(const reply code, const std::string cmdName);
 
 };
 

@@ -139,7 +139,7 @@ void Server::JOIN(void){
                     }
                 }
             }
-            else {
+            else { 
                 Client *membr = &this->_client[this->_currentClient];
                 this->_channel[index - 1].GetMembers().push_back(*membr);
                 std::cout<<"channel exist witout password : "<<this->_channel[index - 1].GetName()<<std::endl;

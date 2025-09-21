@@ -20,7 +20,7 @@ files	=	main.cpp \
 
 obj		:= $(files:.cpp=.o)
 
-Cpp		= c++
+Cpp		= g++
 
 FLAGS	=  -Wall -Wextra -Werror -std=c++98  -I./Inc
 

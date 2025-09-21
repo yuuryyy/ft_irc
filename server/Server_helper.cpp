@@ -62,7 +62,7 @@ void Server::commands_handler(){
             USER();
             break;
         case 3:
-            JOIN();
+            // JOIN();
             break;
         case 4:
             std::cout<<"PART"<<std::endl;
@@ -143,21 +143,21 @@ void Server::cleaner(void){
     exit(1);
 }
 
-void Server::sendReply(const reply code, const std::string cmdName){
-    // thsi function append errors and replies to the client's buffer
+// void Server::sendReply(const reply code, const std::string cmdName){
+//     // thsi function append errors and replies to the client's buffer
 
-    std::string reply = ":localhost " 
-                         + code.code + " "
-                        + cmdName + " "
-                        + this->_client[this->_currentClient].getnick()
-                        + " :" + code.msg + "\r\n";
-            send(this->_currentClient, reply.c_str(), reply.length(), 0);
-    // size_t bytes = send(this->_currentClient, reply.c_str(), reply.length(), 0);
+//     std::string reply = ":localhost " 
+//                          + code.code + " "
+//                         + cmdName + " "
+//                         + this->_client[this->_currentClient].getnick()
+//                         + " :" + code.msg + "\r\n";
+//             send(this->_currentClient, reply.c_str(), reply.length(), 0);
+//     // size_t bytes = send(this->_currentClient, reply.c_str(), reply.length(), 0);
 
-    // if(bytes < 0){
-    //     std::cerr<<"failed send data "<<std::endl;
-    // }
-}
+//     // if(bytes < 0){
+//     //     std::cerr<<"failed send data "<<std::endl;
+//     // }
+// }
 
 void
 Server::sendReply(int fd, const std::string& reply)

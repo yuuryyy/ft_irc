@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numericalReplies.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychagri <ychagri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yuury <yuury@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:17:18 by ychagri           #+#    #+#             */
-/*   Updated: 2025/09/12 15:29:11 by ychagri          ###   ########.fr       */
+/*   Updated: 2025/09/21 18:01:44 by yuury            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@
 #define ERR_BANNEDFROMCHAN(clnt, chnl)              ":" SERVERNAME " 474 " + clnt + " " + chnl + " :Cannot join because you are banned\r\n"
 #define ERR_BADCHANNELKEY(clnt, chnl)               ":" SERVERNAME " 475 " + clnt + " " + chnl + " :Incorrect channel key\r\n"
 #define ERR_NONICKNAMEGIVEN(clnt)                   ":" SERVERNAME " 431 " + clnt + " :No nickname provided\r\n"
-#define ERR_ERRONEUSNICKNAME(clnt, nick)            ":" SERVERNAME " 432 " + clnt + " " + nick + " :Erroneous nickname\r\n"
-#define ERR_NICKNAMEINUSE(clnt, nick)               ":" SERVERNAME " 433 " + clnt + " " + nick + " :Nickname is already in use\r\n"
+#define ERR_ERRONEUSNICKNAME                        ":" SERVERNAME " 432 :Erroneous nickname\r\n"
+#define ERR_NICKNAMEINUSE                           ":" SERVERNAME " 433 :Nickname is already in use\r\n"//TODO: Incorrect format
 #define ERR_ALREADYREGISTERED(clnt)                 ":" SERVERNAME " 462 " + clnt + " :You are already registered\r\n"
-#define ERR_PASSWDMISMATCH(clnt)                    ":" SERVERNAME " 464 " + clnt + " :Incorrect password\r\n"
+#define ERR_PASSWDMISMATCH                          ":" SERVERNAME " 464 :Incorrect password\r\n"//TODO: Incorrect format
 #define ERR_INVITEONLYCHAN(clnt, chnl)              ":" SERVERNAME " 473 " + clnt + " " + chnl + " :Invite only channel\r\n"
 #define ERR_CHANNELISFULL(clnt, chnl)               ":" SERVERNAME " 471 " + clnt + " " + chnl + " :Channel is full\r\n"
 
@@ -49,14 +49,6 @@ std::string to_string(const T& value)
     oss << value;
     return oss.str();
 }
-// void sendServerRpl(int const client_fd, std::string client_buffer); //This function takes a client file descriptor and a formatted message buffer, then sends the message to the appropriate client.
-typedef struct s_replies
-{
-    std::string code;
-    std::string msg;
-	s_replies();
-	s_replies(const std::string& c, const std::string& m);
-} reply;
 
 // #define ERR_NEEDMOREPARAMS		reply("461", "Not enough parameters")
 // #define RPL_WELCOME				reply("001", "Welcome")

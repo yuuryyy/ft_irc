@@ -1,16 +1,19 @@
 #include "Server.hpp"
 
 void Server::PASS(void){
+	int fd = this->_currentClient;
+	std::string nick = this->_client[this->_currentClient].getnick();
+
 	if (this->_client[this->_currentClient].getregistered() || this->_client[this->_currentClient].getisPassed()){
-		sendReply(ERR_ALREADYREGISTERED, "");
+		sendReply(fd, ERR_ALREADYREGISTERED(nick));
 		return ;
 	}
 	if (this->_line.size() < 2){
-		sendReply(ERR_NEEDMOREPARAMS, "");
+		sendReply(fd, ERR_NEEDMOREPARAMS(nick, "PASS"));
 		return ;
 	}
 	if ( _line[1] != this->_password){
-		sendReply(ERR_PASSWDMISMATCH, "");
+		sendReply(fd, ERR_PASSWDMISMATCH);
 		return ;
 	}
 	this->_client[this->_currentClient].setisPassed(1);

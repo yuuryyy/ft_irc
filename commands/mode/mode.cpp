@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youssra-chagri <youssra-chagri@student.    +#+  +:+       +#+        */
+/*   By: yuury <yuury@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:55:22 by ychagri           #+#    #+#             */
-/*   Updated: 2025/09/11 10:42:21 by youssra-cha      ###   ########.fr       */
+/*   Updated: 2025/09/26 14:24:15 by yuury            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,14 @@ Server::parseMode( void )
 void
 Server::MODE( void )
 {
+    int         fd = this->_currentClient;
+    if (this->_client[fd].getregistered() == false)
+        return sendReply(fd, ERR_NOTREGISTERED(std::string("*")));
     
     std::string pareseReply = this->parseMode();
     if (!pareseReply.empty())
         return sendReply(this->_currentClient, pareseReply);
 
-    int         fd = this->_currentClient;
     std::string nick = this->_client[fd].getnick();
     size_t      size = this->_line.size();
     std::string modestring(this->_line[3]);

@@ -6,7 +6,7 @@
 /*   By: yuury <yuury@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:17:18 by ychagri           #+#    #+#             */
-/*   Updated: 2025/09/21 18:01:44 by yuury            ###   ########.fr       */
+/*   Updated: 2025/09/26 14:25:03 by yuury            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
 #define ERR_CHANOPRIVSNEEDED(clnt, chnl)            ":" SERVERNAME " 482 " + clnt + " " + chnl + " :You're not a channel operator\r\n"
 #define ERR_NOTONCHANNEL(clnt, chnl)                ":" SERVERNAME " 442 " + clnt + " " + chnl + " :You're not on that channel\r\n"
 #define ERR_NOSUCHNICK(clnt,nkname)                 ":" SERVERNAME " 401 " + clnt + " " + nkname + " :No such nick\r\n"
-#define ERR_USERNOTINCHANNEL(clnt, nkname, chnl)    ":" SERVERNAME " 441 " + clnt + " " + nkname + " " +chnl + " :They aren't on that channel\r\n" 
+#define ERR_USERNOTINCHANNEL(clnt, nkname, chnl)    ":" SERVERNAME " 441 " + clnt + " " + nkname + " " + chnl + " :They aren't on that channel\r\n" 
 #define RPL_MODE(chnl, mod, args)                   ":" SERVERNAME " MODE "+ chnl + " " + mod + args + "\r\n"
+#define ERR_NOTREGISTERED(clnt)                     ":" SERVERNAME " 451 " + clnt + " :You have not registered\r\n"
 
 #define RPL_WELCOME(clnt)                           ":" SERVERNAME " 001 " + clnt + " :Welcome\r\n"
 #define RPL_JOIN(clnt, chnl)                        ":" SERVERNAME "  JOIN " + clnt + " " + chnl + " :has joined a channel\r\n"

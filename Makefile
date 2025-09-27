@@ -1,4 +1,4 @@
-NAME	= ircserv
+NAME	=	ircserv
 
 HEADER	=	./Inc/Server.hpp        \
 			./Inc/Client.hpp  \
@@ -6,20 +6,21 @@ HEADER	=	./Inc/Server.hpp        \
 			./Inc/numericalReplies.hpp \
 
 files	=	main.cpp \
-			server/Server.cpp \
-			server/Server_helper.cpp\
-			client/Client.cpp \
-			channel/Channel.cpp\
-			commands/Join.cpp \
- 			commands/Pass.cpp \
-			commands/Nick.cpp \
-			commands/User.cpp \
-			commands/mode/mode.cpp\
-			commands/mode/utils.cpp\
+			mandatory/server/Server.cpp \
+			mandatory/server/Server_helper.cpp\
+			mandatory/client/Client.cpp \
+			mandatory/channel/Channel.cpp\
+			mandatory/commands/Join.cpp \
+ 			mandatory/commands/Pass.cpp \
+			mandatory/commands/Nick.cpp \
+			mandatory/commands/User.cpp \
+			mandatory/commands/mode/mode.cpp\
+			mandatory/commands/mode/utils.cpp\
+			bonus/bot/bot.cpp
 
 obj		:= $(files:.cpp=.o)
 
-Cpp		= g++
+Cpp		=	c++
 
 FLAGS	=  -Wall -Wextra -Werror -std=c++98  -I./Inc
 
@@ -41,11 +42,11 @@ fclean: clean
 re: fclean all
 
 commit: fclean
-	git add .
-	git commit -m "$(filter-out $@, $(MAKECMDGOALS))"  
+		git add .
+		git commit -m "$(filter-out $@, $(MAKECMDGOALS))"  
 
 push: fclean
-	git add .
-	git status
-	git commit -m "$(filter-out $@, $(MAKECMDGOALS))"
-	git push
+		git add .
+		git status
+		git commit -m "$(filter-out $@, $(MAKECMDGOALS))"
+		git push

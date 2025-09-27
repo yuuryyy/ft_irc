@@ -104,9 +104,13 @@ Mode Application Process:
 
 ################################################################################################################################
 
+MY BOT:
+    i chose to implement an actually usefull bot 
+    syntax : /bot -option args
+    if /bot help was entered the help options will be DISPLAYED
 
-
-the four categories of channel modes:
-
-    type A:
+    the options will be :
+        -whois : takes nick as an arg and displays thier nick user and real names
+        -listusers: takes channel name and displays a list of    all its members
+        -listcmds: takes no args and lists the commands available
         

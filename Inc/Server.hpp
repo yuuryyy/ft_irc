@@ -32,9 +32,9 @@ enum Commands {
     TOPIC_cmd,
     KICK_cmd,
     INVITE_cmd,
+    BOT_CMD,
     UNKNOWN_cmd
 };
-
 
 class Server
 {
@@ -99,6 +99,14 @@ class Server
             Client*             userExist( const std::string &nick);
             const std::string   parseMode( void );
             void                MODE( void );
+
+            const std::string   botParser( void );
+            void                help( void );
+            void                helpRpl(const std::string &option, const std::string reply[], int size);
+            void                whois( int fd, const std::string &nick);
+            void                listcmds( void );
+            void                listusers(int fd, const std::string &nick);
+            void                BOT( void );
 
             void        cleaner(void);
             void        OneClean(void);

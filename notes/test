@@ -5,6 +5,7 @@ NICK LALA
 :localhost 001 LALA :Welcome
 ########################################################
 NICK //TODO: EMPTY NICK PASSES AS IT SHOULD NOT
+TODO: IT USED THE PASSWORD AS A NICKNAME
 USER DFDS SDFDS DSFSD DSF
 :localhost 001 lalakoka :Welcome
 PASS lalakoka
@@ -13,5 +14,4 @@ USER DFDS SDFDS DSFSD DSF
 :localhost 001 lalakoka :Welcome
 NICK ..
 :localhost 432 lalakoka .. :Erroneous nickname
-TODO: IT USED THE PASSWORD AS A NICKNAME
 ############################################################

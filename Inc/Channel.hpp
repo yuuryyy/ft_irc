@@ -13,7 +13,7 @@ class Channel {
         std::string Password;
 
         std::time_t                             _creationTime;
-        int                                     _capacityLimit;
+        size_t                                     _capacityLimit;
         uint                                    _membersCount;
         std::map<std::string, Client>           _members;
         std::string                             _modes;
@@ -30,7 +30,6 @@ class Channel {
         uint                                    getMembersCount( void ) const;
         
         bool                                    is_restrectedTopic( void ) const;
-        bool                                    is_userLimited( void ) const;
         bool                                    is_inviteOnly( void ) const;
         
         
@@ -75,7 +74,7 @@ class Channel {
         std::string                             args;
         std::string                             changedModes;
         void                                    broadcastReply(const std::string &reply);
-        bool                                    get_l(void);
+        bool                                    is_userLimited( void ) const;
         
         std::string& GetName(void);
         void SetName(std::string& name);

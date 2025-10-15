@@ -1,6 +1,6 @@
 #include "Channel.hpp"
 
-Channel::Channel():Name("default") , _capacityLimit(-1), _membersCount(0)
+Channel::Channel():Name("default") , _capacityLimit(0), _membersCount(0) ///
 , _i(false), _t(false), _k(false), _l(false)
 {
     this->_creationTime = std::time(NULL);
@@ -8,7 +8,7 @@ Channel::Channel():Name("default") , _capacityLimit(-1), _membersCount(0)
     // this->_Ops.clear();
 }
 
-Channel::Channel( const std::string name ): Name(name), _capacityLimit(-1), _membersCount(0)
+Channel::Channel( const std::string name ): Name(name), _capacityLimit(0), _membersCount(0)
 , _i(false), _t(false), _k(false), _l(false)
 {
     this->_creationTime = std::time(NULL);
@@ -194,10 +194,6 @@ Channel::set_l( char flag , const std::string &num )
         setCapacityLimit(num); //
     else
         this->triggerMode('-', 'l', this->is_userLimited(), this->_l);
-}
-
-bool Channel::get_l(void){
-    return this->_l;
 }
 
 // void

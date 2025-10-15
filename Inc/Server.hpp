@@ -105,6 +105,7 @@ class Server
             bool        findit(pollfd p);
 
             void        Sender(std::string num);
+            bool        Already_in_channel(Channel &chan, const std::string &nick);
         //     void        sendReply(const reply code, const std::string cmdName);
 
 };

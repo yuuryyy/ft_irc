@@ -1,14 +1,19 @@
 #include "../Inc/Server.hpp"
 
 bool Name_check(std::string line){
-    if (line[0] != '#' && line[0] != '&'){
+    if (line[0] != '#'){
         return false;
     }
     return true;
 }
 
-// bool Already_in_channel(Channel &chan, Client &client){
-// }
+bool    Server::Already_in_channel(Channel &chan, const std::string &nick){
+    std::map<std::string, Client>::const_iterator it = chan.GetMembers().find(nick);
+    if (it != chan.GetMembers().end()){
+        return true;
+    }
+    return false;
+}
 
 int Server::JoinParse(std::vector<std::string> *channels, std::vector<std::string> *keys){
     
@@ -82,6 +87,12 @@ void Server::JOIN(void){
         else{
             Channel &Chan = this->_channel[chans[i]];
             Client *membr = &this->_client[this->_currentClient];
+            if (Already_in_channel(Chan, membr->getnick())){
+                // sendErr(ERR_USERONCHANNEL, "");
+                std::cerr<<"ERR_USERONCHANNEL"<<std::endl;
+                continue;
+            }
+            //check if already exist in channel
             if (Chan.getCapacityLimit() <= Chan.GetMembers().size()){ // check if the +l et or not
                 // sendErr(ERR_CHANNELISFULL, "");
                 std::cerr<<"ERR_CHANNELISFULL"<<std::endl;

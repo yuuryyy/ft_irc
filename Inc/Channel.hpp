@@ -28,10 +28,8 @@ class Channel {
         const std::map<std::string, Client >&    GetOps(void) const;
         
         
-        int                                     getCapacityLimit( void ) const;
         
         bool                                    is_restrectedTopic( void ) const;
-        bool                                    is_userLimited( void ) const;
         bool                                    is_inviteOnly( void ) const;
         
         
@@ -46,7 +44,7 @@ class Channel {
         void                                    decrementCount( void );
         
         
-    public:
+        public:
         typedef std::map<std::string, Client >::const_iterator    constmap_it;
         typedef std::map<std::string, Client >::iterator           map_it;
         
@@ -57,7 +55,10 @@ class Channel {
         uint                                    getMembersCount( void ) const;
         const std::map<std::string, Client >&    GetMembers(void) const;
         bool                                     is_Op( const std::string &name ) const;
+        int                                      getCapacityLimit( void ) const;
         bool                                     is_Member( const std::string &name ) const;
+        bool                                     is_keyed( void )const;
+        bool                                     is_userLimited( void ) const;
         
         void                                     addMember(Client &client);
         void                                     addOps( Client &newOp );
@@ -74,7 +75,7 @@ class Channel {
         std::string                             args;
         std::string                             changedModes;
         void                                    broadcastReply(const std::string &reply);
-        bool                                    get_l(void);
+        // bool                                    get_l(void);
         
         std::string& GetName(void);
         void SetName(std::string& name);

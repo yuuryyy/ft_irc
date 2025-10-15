@@ -28,7 +28,7 @@ Channel::GetOps(void)const {
     return this->_Ops;
 }
 
-size_t
+int
 Channel::getCapacityLimit( void ) const 
 {
     return this->_capacityLimit;
@@ -194,10 +194,6 @@ Channel::set_l( char flag , const std::string &num )
         setCapacityLimit(num); //
     else
         this->triggerMode('-', 'l', this->is_userLimited(), this->_l);
-}
-
-bool Channel::get_l(void){
-    return this->_l;
 }
 
 // void

@@ -46,7 +46,7 @@ void Server::NICK(void){
     }
 
 	if (!this->_client[fd].getisPassed()){
-		sendReply(fd, ERR_PASSWDMISMATCH);
+		// sendReply(fd, ERR_PASSWDMISMATCH);
 		// OneClean();
 		return;
 	}

@@ -75,6 +75,7 @@ class Channel {
         std::string                             args;
         std::string                             changedModes;
         void                                    broadcastReply(const std::string &reply);
+        bool                                    get_l(void);
         
         std::string& GetName(void);
         void SetName(std::string& name);

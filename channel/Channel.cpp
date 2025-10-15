@@ -196,6 +196,10 @@ Channel::set_l( char flag , const std::string &num )
         this->triggerMode('-', 'l', this->is_userLimited(), this->_l);
 }
 
+bool Channel::get_l(void){
+    return this->_l;
+}
+
 // void
 // Channel::set_o( char flag )
 // {

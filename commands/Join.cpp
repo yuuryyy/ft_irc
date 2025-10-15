@@ -15,6 +15,12 @@ bool    Server::Already_in_channel(Channel &chan, const std::string &nick){
     return false;
 }
 
+// bool    Server::Invite_only(Channel &chan){
+//     if (chan.get_l() == true && chan.getCapacityLimit() <= chan.GetMembers().size()){
+//     }
+//     return false;
+// }
+
 int Server::JoinParse(std::vector<std::string> *channels, std::vector<std::string> *keys){
     
     if (this->_line.size()<=1){
@@ -55,9 +61,6 @@ int Server::ft_split(std::vector<std::string> *channels, std::string& chans, cha
     chans.clear();
     return 1;
 }
-//#
-// already in
-// check for the password again
 void Server::JOIN(void){
     if (!this->_client[this->_currentClient].getregistered()){
         // sendErr(ERR_NOTREGISTERED, "");//451
@@ -93,7 +96,7 @@ void Server::JOIN(void){
                 continue;
             }
             //check if already exist in channel
-            if (Chan.getCapacityLimit() <= Chan.GetMembers().size()){ // check if the +l et or not
+            if (Chan.get_l() == true && Chan.getCapacityLimit() <= Chan.GetMembers().size()){
                 // sendErr(ERR_CHANNELISFULL, "");
                 std::cerr<<"ERR_CHANNELISFULL"<<std::endl;
             }

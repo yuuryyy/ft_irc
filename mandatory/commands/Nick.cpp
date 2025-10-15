@@ -19,7 +19,6 @@ bool Server::firstChar(void){
 bool Server::otherChar(void){
 	std::string except = "QWERTYUIOPLKJHGFDSAZXCVBNMqwertyuioplkjhgfdsazxcvbnm[]\\`_^{|}123456789-";
 	for (size_t i=1; i < this->_line[1].size(); i++){
-		std::cout<<"["<< this->_line[1]<< "] : " << "("<< this->_line[1][i]<< ")  : " <<i<< "  :  "<< this->_line[i].size() <<std::endl;
 		if (except.find(this->_line[1][i]) == std::string::npos){
 			return false;
 		}
@@ -28,11 +27,10 @@ bool Server::otherChar(void){
 }
 
 bool Server::Nickparse(void){
-	if (this->_line[1].size() < 1 || this->_line[1].size()>=9){
+	if (this->_line[1].size() < 1 || this->_line[1].size()>9){
 		return false;
 	}
 	if (!firstChar() || !otherChar()){
-		std::cout<<"here"<<std::endl;
 		return false;
 	}
 	return true;
@@ -40,10 +38,15 @@ bool Server::Nickparse(void){
 
 void Server::NICK(void){
 	int fd = this->_currentClient;
-	// std::string nick = this->_client[this->_currentClient].getnick();
 
-	if (!this->_client[this->_currentClient].getisPassed()){
-		sendReply(fd, ERR_PASSWDMISMATCH(this->_line[1]));
+	if (this->_line.size() < 2){
+        // sendReply(fd, ERR_NONICKNAMEGIVEN);
+		std::cout<<"NICK : no params"<<std::endl;
+        return;
+    }
+
+	if (!this->_client[fd].getisPassed()){
+		sendReply(fd, ERR_PASSWDMISMATCH);
 		// OneClean();
 		return;
 	}
@@ -60,11 +63,14 @@ void Server::NICK(void){
 		// OneClean();
 		return;
 	}
-	this->_client[this->_currentClient].setnick(this->_line[1]);
-	this->_client[this->_currentClient].setreg();
-	if (this->_client[this->_currentClient].getreg() == 3){
+	this->_client[fd].setnick(this->_line[1]);
+	this->_client[fd].set_is_nick(1);
+	if (this->_client[fd].get_is_user() == 1 && this->_client[fd].getregistered() == 0){
+		this->_client[fd].setregistered(1);
 		sendReply(fd, RPL_WELCOME(this->_line[1]));
 		return;
 	}
-	// std::cout<<"nickname : "<< this->_client[this->_currentClient].getnick()<<std::endl;
+
 }
+
+//nick + no params

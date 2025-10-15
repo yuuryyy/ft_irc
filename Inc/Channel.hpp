@@ -33,7 +33,6 @@ class Channel {
         bool                                    is_restrectedTopic( void ) const;
         bool                                    is_userLimited( void ) const;
         bool                                    is_inviteOnly( void ) const;
-        bool                                    is_keyed( void ) const;
         
         
         void                                    setKey( const std::string &password ) ;
@@ -75,6 +74,7 @@ class Channel {
         std::string                             args;
         std::string                             changedModes;
         void                                    broadcastReply(const std::string &reply);
+        bool                                    get_l(void);
         
         std::string& GetName(void);
         void SetName(std::string& name);

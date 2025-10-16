@@ -1,6 +1,10 @@
 #include "Server.hpp"
 #include "Channel.hpp"
 
+char to_upper_char(char c) {
+    return std::toupper(static_cast<unsigned char>(c));
+}
+
 void
 Server::handle_new_connections(int Socket_fd)
 {
@@ -112,7 +116,9 @@ void Server::parse_cmd(std::string cmd){
         prefix.erase(0,1);
     }
     bf>>command;
+    std::cout<<"command is : "<<command<<std::endl;
     if (!command.empty()){
+        std::transform(command.begin(), command.end(), command.begin(), to_upper_char);
         this->_line.push_back(command);
     }
     if (!message.empty()){
@@ -128,6 +134,8 @@ void Server::parse_cmd(std::string cmd){
     }
     commands_handler();
 }
+
+
 
 // void Server::Sender(std::string num){
 //     std::string to_client   = ":localhost" + num + this->_client[this->_currentClient].getnick() + " :Welcome to our server\r\n";

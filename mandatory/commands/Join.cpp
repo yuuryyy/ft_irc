@@ -25,12 +25,12 @@ int Server::JoinParse(std::vector<std::string> *channels, std::vector<std::strin
     
     if (this->_line.size()<=1){
         std::cerr<<"Error join"<<std::endl;
-        // sendErr(ERR_NEEDMOREPARAMS, "");
-        std::cerr<<"ERR_NEEDMOREPARAMS"<<std::endl;
+        sendReply(this->_currentClient, ERR_NEEDMOREPARAMS(this->_client[this->_currentClient].getnick(), "JOIN"));
+        std::cerr<<"sent => ERR_NEEDMOREPARAMS"<<std::endl;
         return 0;
     }
     if (!ft_split(channels, this->_line[1], ',')){
-        std::cerr<<"ERR_NEEDMOREPARAMS"<<std::endl;
+        // std::cerr<<"ERR_NEEDMOREPARAMS"<<std::endl;
         // sendErr(ERR_NEEDMOREPARAMS, "");
         return 0;
     }

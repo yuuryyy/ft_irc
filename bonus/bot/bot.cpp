@@ -115,5 +115,5 @@ Server::BOT()
     else if (option == "-listusers")
         return this->listusers(fd, nick);
     else
-        return sendReply(fd, ERR_HELPNOTFOUND(nick, option));
+        return sendReply(fd, option);
 }

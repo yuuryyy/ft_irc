@@ -59,7 +59,6 @@ bool
 Channel::is_Member( const std::string &name ) const
 {
     std::map<std::string, Client>::const_iterator it = this->_members.find(name);
-    std::cerr << name << "nameeee\n";
     return (it != this->_members.end()) ? true : false;
 }
 

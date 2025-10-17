@@ -116,7 +116,6 @@ void Server::parse_cmd(std::string cmd){
         prefix.erase(0,1);
     }
     bf>>command;
-    std::cout<<"command is : "<<command<<std::endl;
     if (!command.empty()){
         std::transform(command.begin(), command.end(), command.begin(), to_upper_char);
         this->_line.push_back(command);
@@ -154,22 +153,6 @@ void Server::cleaner(void){
     }
     exit(1);
 }
-
-// void Server::sendReply(const reply code, const std::string cmdName){
-//     // thsi function append errors and replies to the client's buffer
-
-//     std::string reply = ":localhost " 
-//                          + code.code + " "
-//                         + cmdName + " "
-//                         + this->_client[this->_currentClient].getnick()
-//                         + " :" + code.msg + "\r\n";
-//             send(this->_currentClient, reply.c_str(), reply.length(), 0);
-//     // size_t bytes = send(this->_currentClient, reply.c_str(), reply.length(), 0);
-
-//     // if(bytes < 0){
-//     //     std::cerr<<"failed send data "<<std::endl;
-//     // }
-// }
 
 void
 Server::sendReply(int fd, const std::string& reply)

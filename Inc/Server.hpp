@@ -76,7 +76,6 @@ class Server
             void        initCmds(void);
             int         GetCmds(void);
     
-            int         IsChannelExist(std::string ChanName);
             int         ft_split(std::vector<std::string> *channels, std::string& chan, char delimiter);
 
             int JoinParse(std::vector<std::string> *channels, std::vector<std::string> *keys);
@@ -110,7 +109,6 @@ class Server
             void        OneClean(void);
             bool        findit(pollfd p);
 
-            void        Sender(std::string num);
             bool        Already_in_channel(Channel &chan, const std::string &nick);
 
         //     bool        Invite_only(Channel &chan);

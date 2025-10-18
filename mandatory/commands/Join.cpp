@@ -90,12 +90,11 @@ void Server::JOIN(void){
         else{
             Channel &Chan = this->_channel[chans[i]];
             Client *membr = &this->_client[this->_currentClient];
-            // if (Already_in_channel(Chan, membr->getnick())){
-            //     // sendReply(this->_currentClient, ERR_USERONCHANNEL());
-            //     // std::cerr<<"sent => ERR_USERONCHANNEL."<<std::endl;
-            //     continue;
-            // }// dont have to plus this reply is not the one should be here its for when invited not joining
-            //check if already exist in channel
+            if (Already_in_channel(Chan, membr->getnick())){
+                // sendReply(this->_currentClient, ERR_USERONCHANNEL());
+                continue;
+            }// dont have to plus this reply is not the one should be here its for when invited not joining
+            // check if already exist in channel
 
             // std::cout<<Chan.is_userLimited()<< "   ->   " << Chan.getCapacityLimit() <<std::endl;e
             if (Chan.is_userLimited() == true && Chan.getCapacityLimit() <= (int)Chan.GetMembers().size()){
@@ -103,7 +102,9 @@ void Server::JOIN(void){
                 std::cerr<<"sent => ERR_CHANNELISFULL."<<std::endl;
                 return ;
             }
-            //invite only
+            if (Chan.get_i() == true && !Chan.isInvited(membr->getnick())){
+                sendReply(this->_currentClient, ERR_INVITEONLYCHAN(membr->getnick(), Chan.GetName()));
+            }
             if (Chan.is_keyed()){
                 // std::cout<<"key"<<std::endl;
                 if ( i < keys.size() && Chan.GetPassword() == keys[i]){

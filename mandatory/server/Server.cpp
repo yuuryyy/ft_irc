@@ -2,7 +2,7 @@
 #include "Channel.hpp"
 
 
-// volatile sig_atomic_t flag = 0;
+volatile sig_atomic_t flag = 0;
 
 Server::Server(uint port , std::string password): _port(port), _password(password)
 {
@@ -56,8 +56,8 @@ Server::server_socket() //TODO: might set the dual socket ipv6 and 4 later
 void
 Server::running_server(int Socket_fd)
 {
-    // while(!flag)
-    while(true)
+    while(!flag)
+    // while(true)
     {
         int monitor = poll(this->_poll_fds.data(), this->_poll_fds.size(), -1);//poll to monitor multiple fds without i/o blocking
         checkErr(monitor, -1, "Error : Failed poll");
@@ -105,7 +105,7 @@ Server::running_server(int Socket_fd)
             }
         }
     }
-    // cleaner();
+    cleaner();
 }
 
 void Server::start(){
@@ -127,6 +127,6 @@ Server::checkErr(const int res, const int err, const char *msg)
     return ;
 }
 
-// void Server::Handler(int){
-//     flag = 1;
-// }
+void Server::Handler(int){
+    flag = 1;
+}

@@ -6,14 +6,13 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 02:47:29 by hmoukit           #+#    #+#             */
-/*   Updated: 2025/10/18 17:05:18 by hmoukit          ###   ########.fr       */
+/*   Updated: 2025/10/23 16:07:52 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/Server.hpp"
 
-//TODO: check if you should fix the : problem
-void Server::PRIVMSG(void) //TODO: THE CODE IS TOO LONG 
+void Server::PRIVMSG(void)
 {
 	Client &sender = this->_client[this->_currentClient];
 	std::vector<std::string> args = this->_line;
@@ -22,14 +21,24 @@ void Server::PRIVMSG(void) //TODO: THE CODE IS TOO LONG
 		sendReply(sender.getFd(), ERR_NEEDMOREPARAMS(sender.getnick(), "PRIVMSG"));
 		return ;
 	}
-	std::string targets = args[1];
+	std::string targets;
 	std::string message;
-	for(size_t i = 2; i < args.size(); ++i)
+	if (getChekPriv())
 	{
-		if (i == 2 && args[i][0] == ':')
-			message += args[i].substr(1);
-		else
-			message += " " + args[i];
+		setCheckPriv(false);
+		targets = args[2];
+		message = args[1].substr(1);
+	}
+	else
+	{
+		targets = args[1];
+		for(size_t i = 2; i < args.size(); ++i)
+		{
+			if (i == 2 && args[i][0] == ':')
+				message += args[i].substr(1);
+			else
+				message += " " + args[i];
+		}
 	}
 	if (message.empty())
 	{
@@ -56,7 +65,6 @@ void Server::PRIVMSG(void) //TODO: THE CODE IS TOO LONG
 				continue;
 			}
 			std::string msg = ":" + sender.getPrefix() + " PRIVMSG " + target + " :" + message + "\r\n";
-			std::cout << "HERE" << std::endl;
 			chan.broadcastReply(msg); //TODO: there's a problem after this line the message doesn't get broadcasted
 		}
         else

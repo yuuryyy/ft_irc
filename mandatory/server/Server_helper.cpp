@@ -106,6 +106,7 @@ void Server::parse_cmd(std::string cmd){
     std::string target;
     size_t      pos = cmd.find(" :");
 
+	setCheckPriv(false);
     if (pos != std::string::npos){
         message = cmd.substr(pos + 1);
         cmd.erase(pos);
@@ -121,6 +122,8 @@ void Server::parse_cmd(std::string cmd){
         this->_line.push_back(command);
     }
     if (!message.empty()){
+		if (command == "privmsg" || command == "PRIVMSG")
+			setCheckPriv(true);
         this->_line.push_back(message);
     }
     if (!prefix.empty()){

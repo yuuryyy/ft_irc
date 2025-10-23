@@ -27,7 +27,6 @@ enum Commands {
     NICK_cmd,
     USER_cmd,
     JOIN_cmd,
-    PART_cmd, //TODO: DO WE NEED TO IMPLEMENT PART?
     MODE_cmd,
     TOPIC_cmd,
     KICK_cmd,

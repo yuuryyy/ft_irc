@@ -38,7 +38,6 @@ void Server::initCmds(void){
     this->_cmd["NICK"] = NICK_cmd;
     this->_cmd["USER"] = USER_cmd;
     this->_cmd["JOIN"] = JOIN_cmd;
-    this->_cmd["PART"] = PART_cmd;
     this->_cmd["MODE"] = MODE_cmd;
     this->_cmd["TOPIC"] = TOPIC_cmd;
     this->_cmd["KICK"] = KICK_cmd;
@@ -71,24 +70,21 @@ void Server::commands_handler(){
             JOIN();
             break;
         case 4:
-            std::cout<<"PART"<<std::endl;
-            break;
-        case 5:
             MODE();
             break;
-        case 6:
+        case 5:
             TOPIC();
             break;
-        case 7:
+        case 6:
             KICK();
             break;
-        case 8:
+        case 7:
             INVITE();
             break;
-        case 9:
+        case 8:
             this->BOT();
             break;
-        case 10:
+        case 9:
             PRIVMSG();
             break;
         default:{

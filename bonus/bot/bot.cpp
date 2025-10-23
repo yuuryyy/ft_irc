@@ -67,7 +67,6 @@ Server::listcmds( void )
                 RPL_CMD_NICK,
                 RPL_CMD_USER,
                 RPL_CMD_JOIN,
-                RPL_CMD_PART,
                 RPL_CMD_MODE,
                 RPL_MODE_I,
                 RPL_MODE_T,

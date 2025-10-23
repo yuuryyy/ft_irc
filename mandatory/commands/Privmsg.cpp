@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 02:47:29 by hmoukit           #+#    #+#             */
-/*   Updated: 2025/10/23 16:14:37 by hmoukit          ###   ########.fr       */
+/*   Updated: 2025/10/23 17:09:41 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void Server::PRIVMSG(void)
 			Channel &chan = this->_channel[target];
 			if (!chan.is_Member(sender.getnick()))
 			{
-				sendReply(sender.getFd(), ERR_CANNOTSENDTOCHAN(sender.getnick(), chan.GetName()));
+				sendReply(sender.getFd(), ERR_CANNOTSENDTOCHAN(chan.GetName()));
 				continue;
 			}
 			std::string msg = ":" + sender.getPrefix() + " PRIVMSG " + target + " :" + message + "\r\n";

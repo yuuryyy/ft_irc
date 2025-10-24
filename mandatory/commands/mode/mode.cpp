@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychagri <ychagri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yuury <yuury@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:55:22 by ychagri           #+#    #+#             */
-/*   Updated: 2025/10/17 17:59:09 by ychagri          ###   ########.fr       */
+/*   Updated: 2025/10/24 14:48:28 by yuury            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ Server::MODE( void )
     for (int i = strsize - 1; i >= 0 && (channel->changedModes[i] == '+' || channel->changedModes[i] == '-') ; i--)
         channel->changedModes.erase(i);
 
-    channel->broadcastReply(RPL_MODE(channel->GetName(), channel->changedModes, channel->args));
+    if (channel->changedModes.empty() == false)
+        channel->broadcastReply(RPL_MODE(channel->GetName(), channel->changedModes, channel->args));
 
 }

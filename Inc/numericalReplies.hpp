@@ -6,7 +6,7 @@
 /*   By: yuury <yuury@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:17:18 by ychagri           #+#    #+#             */
-/*   Updated: 2025/10/17 00:13:16 by yuury            ###   ########.fr       */
+/*   Updated: 2025/10/24 14:43:28 by yuury            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,10 @@
 #define RPL_CMD_NICK         (std::string("NICK <nickname>                => Set or change nickname"))
 #define RPL_CMD_USER         (std::string("USER <user> 0 * :<realname>    => Register username and real name"))
 #define RPL_CMD_JOIN         (std::string("JOIN <chan> [key]              => Join or create a channel"))
-#define RPL_CMD_PART         (std::string("PART <chan>                    => Leave a channel"))
-#define RPL_CMD_MODE         (std::string("MODE <chan> [modes]            => View or change channel modes"))
+#define RPL_CMD_MODE         (std::string("MODE <chan> [modes]            => View or change channel modes")) 
 #define RPL_CMD_TOPIC        (std::string("TOPIC <chan> [topic]           => View or set topic"))
 #define RPL_CMD_KICK         (std::string("KICK <chan> <nick>             => Kick a user"))
 #define RPL_CMD_PRIVMSG      (std::string("PRIVMSG <target> :<msg>        => Send a private message"))
-#define RPL_CMD_NOTICE       (std::string("NOTICE <target> :<msg>         => Send a notice"))
-#define RPL_CMD_QUIT         (std::string("QUIT [:msg]                    => Disconnect"))
 
 // Mode options (indented under MODE)
 #define RPL_MODE_I           (std::string("    +i   => Invite-only channel"))
@@ -76,6 +73,13 @@
 #define ERR_PASSWDMISMATCH(clnt)          (std::string(":") + SERVERNAME + " 464 " + clnt + " :Incorrect password\r\n")
 #define ERR_INVITEONLYCHAN(clnt, chnl)    (std::string(":") + SERVERNAME + " 473 " + clnt + " " + chnl + " :Invite only channel\r\n")
 #define ERR_CHANNELISFULL(clnt, chnl)     (std::string(":") + SERVERNAME + " 471 " + clnt + " " + chnl + " :Channel is full\r\n")
+
+#define ERR_NOTEXTTOSEND(clnt, cmd)		  (std::string(":") + SERVERNAME + " 412 " + clnt + " " + cmd + " :No text to send\r\n")
+#define ERR_CANNOTSENDTOCHAN(chnl)  	  (std::string(":") + SERVERNAME + " 404 " + chnl + " :Cannot send to channel\r\n")
+#define RPL_NOTOPIC(chnl)		      	  (std::string(":") + SERVERNAME + " 331 " + chnl + " :No topic is set\r\n")
+#define RPL_TOPIC(chnl, topic)	  		  (std::string(":") + SERVERNAME + " 332 " + chnl + " :" + topic + "\r\n")
+#define ERR_USERONCHANNEl(tnick, chnl)	  (std::string(":") + SERVERNAME + " 443 " + tnick + " " + chnl + " :is already on channel\r\n")
+#define RPL_INVITING(clnt, tnick, chnl)	  (std::string(":") + SERVERNAME + " 341 " + clnt + " " + tnick + " " + chnl + " :invite\r\n")
 
 // Bonus help bot replies
 #define ERR_HELPNOTFOUND(clnt, subject)   (std::string(":") + SERVERNAME + " 524 " + clnt + " " + subject + " :No help available on this topic\r\n") 

@@ -252,16 +252,75 @@ Channel::getTime( void )const
     return this->_creationTime;
 }
 
+// void
+// Channel::broadcastReply(const std::string &reply)
+// {
+//TODO: there's a problem after this line == the message doesn't get broadcasted
+//     if (this->changedModes.empty())
+//         return ;
+
+//     std::map<std::string, Client>   members = this->GetMembers();
+//     constmap_it                     clients = members.begin();
+
+//     for (; clients !=  members.end(); clients++)
+//         Server::sendReply(clients->second.getFd(), reply);
+//     std::cerr<<"sent => RPL_MODE."<<std::endl;
+// }
+
 void
 Channel::broadcastReply(const std::string &reply)
 {
-    if (this->changedModes.empty())
-        return ;
-
     std::map<std::string, Client>   members = this->GetMembers();
     constmap_it                     clients = members.begin();
 
     for (; clients !=  members.end(); clients++)
         Server::sendReply(clients->second.getFd(), reply);
-    std::cerr<<"sent => RPL_MODE."<<std::endl;
+}
+
+bool	Channel::get_t(void)
+{
+	return(_t);
+}
+bool	Channel::get_i(void)
+{
+	return(_i);
+}
+
+const std::string& Channel::getTopic() const
+{
+	return (topic);
+}
+void Channel::setTopic(const std::string& top)
+{
+	topic = top;
+}
+bool Channel::hasTopic() const
+{
+	return (!topic.empty());
+}
+void Channel::addInvite(const std::string &nick)
+{
+	// Avoid duplicates
+	if (!isInvited(nick))
+		invitedUsers.push_back(nick);
+}
+bool Channel::isInvited(const std::string &nick) const
+{
+	for (size_t i = 0; i < invitedUsers.size(); ++i)
+	{
+		if (invitedUsers[i] == nick)
+			return true;
+	}
+	return false;
+}
+
+void Channel::removeMember(const std::string &nick)
+{
+	std::map<std::string, Client>::iterator it = _members.find(nick);
+	if (it != _members.end())
+	{
+		_members.erase(it);
+		if (_membersCount > 0)
+			_membersCount--;
+	}
 }

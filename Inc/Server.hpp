@@ -27,12 +27,12 @@ enum Commands {
     NICK_cmd,
     USER_cmd,
     JOIN_cmd,
-    PART_cmd,
     MODE_cmd,
     TOPIC_cmd,
     KICK_cmd,
     INVITE_cmd,
     BOT_CMD,
+	PRIVMSG_cmd,
     UNKNOWN_cmd
 };
 
@@ -45,7 +45,7 @@ class Server
             int                             _Socket_fd;
             std::map<int, Client>           _client;
             int                             _currentClient;
-            std::map<std::string, Channel>  _channel;// TODO:
+            std::map<std::string, Channel>  _channel;
             std::vector<pollfd>             _poll_fds;
             std::vector<std::string>        _line;
             std::map<std::string, Commands> _cmd;//TODO: better add pointer to the command handler instead
@@ -54,6 +54,8 @@ class Server
 
             typedef std::map<std::string, Channel>::iterator ch_it;
             typedef std::map<int, Client>::iterator          cl_it;
+
+			bool							checkPriv;
 
     public:
             Server(uint port , std::string password);
@@ -91,6 +93,11 @@ class Server
 
             void        USER(void);
 
+			void		INVITE(void);
+			void		KICK(void);
+			void		PRIVMSG(void);
+			void		TOPIC(void);
+
             void                checkErr(const int res, const int err, const char *msg);
             Channel*            channelExist( const std::string &name );
             Client*             userExist( const std::string &nick);
@@ -111,6 +118,10 @@ class Server
 
             bool        Already_in_channel(Channel &chan, const std::string &nick);
 
+			int         IsChannelExist(std::string ChanName);
+
+			bool getChekPriv(void);
+			void setCheckPriv(bool check);
         //     bool        Invite_only(Channel &chan);
         //     void        sendReply(const reply code, const std::string cmdName);
 

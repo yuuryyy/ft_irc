@@ -38,12 +38,13 @@ void Server::initCmds(void){
     this->_cmd["NICK"] = NICK_cmd;
     this->_cmd["USER"] = USER_cmd;
     this->_cmd["JOIN"] = JOIN_cmd;
-    this->_cmd["PART"] = PART_cmd;
     this->_cmd["MODE"] = MODE_cmd;
     this->_cmd["TOPIC"] = TOPIC_cmd;
     this->_cmd["KICK"] = KICK_cmd;
     this->_cmd["INVITE"] = INVITE_cmd;
     this->_cmd["/BOT"] = BOT_CMD;
+    this->_cmd["PRIVMSG"] = PRIVMSG_cmd;
+
 }
 
 int Server::GetCmds(void){
@@ -70,22 +71,22 @@ void Server::commands_handler(){
             JOIN();
             break;
         case 4:
-            std::cout<<"PART"<<std::endl;
-            break;
-        case 5:
             MODE();
             break;
+        case 5:
+            TOPIC();
+            break;
         case 6:
-            std::cout<<"TOPIC"<<std::endl;
+            KICK();
             break;
         case 7:
-            std::cout<<"KICK"<<std::endl;
+            INVITE();
             break;
         case 8:
-            std::cout<<"INVITE"<<std::endl;
+            this->BOT();
             break;
         case 9:
-            this->BOT();
+            PRIVMSG();
             break;
         default:{
             std::cout<<"UNKNOWN : ";
@@ -106,6 +107,7 @@ void Server::parse_cmd(std::string cmd){
     std::string target;
     size_t      pos = cmd.find(" :");
 
+	setCheckPriv(false);
     if (pos != std::string::npos){
         message = cmd.substr(pos + 1);
         cmd.erase(pos);
@@ -121,6 +123,8 @@ void Server::parse_cmd(std::string cmd){
         this->_line.push_back(command);
     }
     if (!message.empty()){
+        if (command == "privmsg" || command == "PRIVMSG")
+			setCheckPriv(true);
         this->_line.push_back(message);
     }
     if (!prefix.empty()){
@@ -178,4 +182,21 @@ void        Server::OneClean(void){
         }
     }
 
+}
+
+int Server::IsChannelExist(std::string ChanName)
+{
+    if (_channel.find(ChanName) != _channel.end())
+        return 1;
+    return 0;
+}
+
+bool Server::getChekPriv(void)
+{
+	return (checkPriv);
+}
+
+void Server::setCheckPriv(bool check)
+{
+	checkPriv = check;
 }

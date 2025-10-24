@@ -42,7 +42,9 @@ class Channel {
         void                                    setCapacityLimit( const std::string  &num );
         void                                    incrementCount( void );
         void                                    decrementCount( void );
-        
+
+        std::string topic;
+                std::vector<std::string> invitedUsers;        
         
         public:
         typedef std::map<std::string, Client >::const_iterator    constmap_it;
@@ -72,7 +74,9 @@ class Channel {
         void                                    set_k( char flag,  const std::string &pass);
         bool                                    set_o( char flag , Client &op );
         void                                    set_l( char flag , const std::string &num);
-        
+
+	bool	get_t(void);//TODO: I ALREADY IMPLEMENTED THESE TW THEY ARE PRIVATE BCZ I DIDNT USE THEM  OUTSIDE OF CHANNEL
+        bool	get_i(void);//
         std::string                             args;
         std::string                             changedModes;
         bool                                    brdcast;
@@ -83,6 +87,12 @@ class Channel {
         void SetName(std::string& name);
         std::string& GetPassword(void);
         
+        const std::string& getTopic() const;
+	void setTopic(const std::string& top);
+	bool hasTopic() const;
+	void addInvite(const std::string &nick);
+	bool isInvited(const std::string &nick) const;
+	void removeMember(const std::string &nick);
         //bot        // const bool getModes( void ) const;
         // const bool getModes( void ) const;
         //get username of ops

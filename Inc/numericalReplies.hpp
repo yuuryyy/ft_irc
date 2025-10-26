@@ -6,7 +6,7 @@
 /*   By: hmoukit <hmoukit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:17:18 by ychagri           #+#    #+#             */
-/*   Updated: 2025/10/23 18:06:41 by hmoukit          ###   ########.fr       */
+/*   Updated: 2025/10/23 18:14:35 by hmoukit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <iostream>
 
-#define LOG(x) std::cerr << "#######################" << x << std::endl;
+// #define LOG(x) std::cerr << "#######################" << x << std::endl;
 
 
 #define SERVERNAME                      (std::string("localhost"))

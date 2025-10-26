@@ -6,7 +6,7 @@
 /*   By: yuury <yuury@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 15:28:04 by yuury             #+#    #+#             */
-/*   Updated: 2025/10/25 21:43:52 by yuury            ###   ########.fr       */
+/*   Updated: 2025/10/26 15:39:17 by yuury            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,28 +141,8 @@ botClient::startBot()
         std::string line = recieve();
         if (!line.empty())
         {
-            std::string trimline = this->_trim(line);
-            if (trimline == "help")
-            {
-                //help; 
-                
-            }
-            else if (trimline == "whois")
-            {
-                
-            }
-            else if (trimline == "listusers")
-            {
-                
-            }
-            else if (trimline == "listcmds")
-            {
-                
-            }
-            else
-            {
-                //error
-            }
+            std::cout << "BOT RCV: " << line << std::endl; // For debugging
+            Server::sendReply(this->_socketFd, line);
             
         }
     }

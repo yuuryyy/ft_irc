@@ -6,7 +6,7 @@
 /*   By: yuury <yuury@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:17:18 by ychagri           #+#    #+#             */
-/*   Updated: 2025/10/24 14:43:28 by yuury            ###   ########.fr       */
+/*   Updated: 2025/10/26 15:16:08 by yuury            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,13 @@
 
 #include <iostream>
 
-#define LOG(x) std::cerr << "#######################" << x << std::endl;
-
-
 #define SERVERNAME                      (std::string("localhost"))
 
 //help
-#define RPL_WHOIS                       (std::string("/bot -whois <nick>             => Shows information about a user"))
-#define RPL_LISTUSERS                   (std::string("/bot -listusers <channel>      => Lists all members of the specified channel"))
-#define RPL_LISTCMDS                    (std::string("/bot -listcmds                 => Shows all commands available"))
-#define RPL_CMD_HELP                    (std::string("/bot help                      => Show usage help"))
+#define RPL_WHOIS                       (std::string("whois <nick>             => Shows information about a user"))
+#define RPL_LISTUSERS                   (std::string("listusers <channel>      => Lists all members of the specified channel"))
+#define RPL_LISTCMDS                    (std::string("listcmds                 => Shows all commands available"))
+#define RPL_CMD_HELP                    (std::string("help                      => Show usage help"))
 
 //whois
 // WHOIS display helpers
@@ -82,10 +79,10 @@
 #define RPL_INVITING(clnt, tnick, chnl)	  (std::string(":") + SERVERNAME + " 341 " + clnt + " " + tnick + " " + chnl + " :invite\r\n")
 
 // Bonus help bot replies
-#define ERR_HELPNOTFOUND(clnt, subject)   (std::string(":") + SERVERNAME + " 524 " + clnt + " " + subject + " :No help available on this topic\r\n") 
-#define RPL_HELPSTART(clnt, subject)      (std::string(":") + SERVERNAME + " 704 " + clnt + " " + subject + " :Welcome to our help Bot\r\n")
-#define RPL_HELPTXT(clnt, subject, txt)   (std::string(":") + SERVERNAME + " 705 " + clnt + " " + subject + " :" + txt + "\r\n")
-#define RPL_ENDOFHELP(clnt, subject)      (std::string(":") + SERVERNAME + " 706 " + clnt + " " + subject + " :End of /BOT " + subject + "\r\n")
+#define ERR_HELPNOTFOUND(subject)          (std::string(":") + SERVERNAME + " 524 " + subject + " :No help available on this topic\r\n") 
+#define RPL_HELPSTART(subject)             (std::string(":") + SERVERNAME + " 704 " + subject + " :Welcome to our help Bot\r\n")
+#define RPL_HELPTXT(subject, txt)          (std::string(":") + SERVERNAME + " 705 " + subject + " :" + txt + "\r\n")
+#define RPL_ENDOFHELP(subject)             (std::string(":") + SERVERNAME + " 706 " + subject + " :End of /BOT " + subject + "\r\n")
 
 
 char    validModeString( char mode );

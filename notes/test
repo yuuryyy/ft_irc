@@ -20,3 +20,10 @@ MODE #TEST -k
 
 MODE #TEST +k
 
+#########################################################
+:l!~l@localhost PRIVMSG yuury :wach cv
+privmsg :l salaam
+
+
+zsh: segmentation fault (core dumped)  ./ircserv 8080 LALA
+###########################################################

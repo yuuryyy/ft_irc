@@ -9,13 +9,13 @@ Server::botParser( void )
     std::string opt = this->_line[1];
     
     if (size < 2)
-        return ERR_NEEDMOREPARAMS(nick, "/BOT");
-    else if ((opt == "-whois" ||  opt == "-listusers") && size <= 2)
-        return ERR_NEEDMOREPARAMS(nick, "/BOT " + opt);
-    if (opt == "help" || opt == "-listcmds" || opt == "-whois" ||  opt == "-listusers")
+        return "";
+    else if ((opt == "whois" ||  opt == "listusers") && size <= 2)
+        return ERR_NEEDMOREPARAMS("*", "/BOT " + opt);
+    if (opt == "help" || opt == "listcmds" || opt == "whois" ||  opt == "listusers")
         return opt;
     else
-        return ERR_HELPNOTFOUND(nick, opt);
+        return "";
 }
 
 void
@@ -25,10 +25,10 @@ Server::helpRpl(const std::string &option, const std::string reply[], int size)
     int         fd = this->_currentClient;
     std::string nick = this->_client[fd].getnick();
 
-    sendReply(fd, RPL_HELPSTART(nick, option));
+    sendReply(fd, RPL_HELPSTART(option));
     for(int i = 0; i < size; i++)
-        sendReply(fd, RPL_HELPTXT(nick, option, reply[i]));
-    sendReply(fd, RPL_ENDOFHELP(nick, option));
+        sendReply(fd, RPL_HELPTXT( option, reply[i]));
+    sendReply(fd, RPL_ENDOFHELP( option));
 }
 
 void
@@ -39,25 +39,25 @@ Server::help( void )
 } 
 
 void
-Server::whois(int fd, const std::string& nick)
+Server::whois(int fd)
 {
     Client  *client = userExist(this->_line[2]);
     if (!client)
-        return sendReply (fd, ERR_NOSUCHNICK(nick, this->_line[2]));
+        return sendReply (fd, ERR_NOSUCHNICK("*", this->_line[2]));
 
     std::string reply[] =   {   W_USERNAME(client->GetUsername()),
                                 W_NICKNAME(client->getnick()),
                                 W_REALNAME(client->getrealname())
                             };
     
-    helpRpl( "-whois", reply, 3);
+    helpRpl( "whois", reply, 3);
 }
 
 void
 Server::listcmds( void )
 {
     std::string reply[] = {
-                "--------- Bonus commands -----------",
+                "--------- Bonus bot commands -----------",
                 RPL_CMD_HELP,
                 RPL_WHOIS,
                 RPL_LISTUSERS,
@@ -77,7 +77,7 @@ Server::listcmds( void )
                 RPL_CMD_KICK,
                 RPL_CMD_PRIVMSG,
                 };
-    helpRpl( "-listcmds", reply, 19);
+    helpRpl( "listcmds", reply, 19);
 }
 
 
@@ -94,7 +94,7 @@ Server::listusers(int fd, const std::string &nick)
     for (std::map<std::string, Client>::iterator it = members.begin(); it != members.end(); ++it)
         names.push_back(it->first);
 
-    helpRpl( "-listusers", &names[0], channel->getMembersCount());
+    helpRpl( "listusers", &names[0], channel->getMembersCount());
 
 }
 
@@ -103,15 +103,24 @@ Server::BOT()
 {
     int         fd = this->_currentClient;
     std::string nick = this->_client[fd].getnick();
+    std::string user = this->_client[fd].GetUsername();
+    if (nick != this->_botnick || user != this->_botusername)
+    {
+        std::cout<<"UNKNOWN : ";
+        for(size_t i=0; i< _line.size(); i++)
+            std::cout<< this->_line[i] << " ";
+        std::cout<<std::endl;
+        return ;
+    }
     std::string option = this->botParser();
 
     if (option == "help")
         return this->help();
-    else if (option == "-whois")
-        return this->whois(fd, nick);
-    else if (option == "-listcmds")
+    else if (option == "whois")
+        return this->whois(fd);
+    else if (option == "listcmds")
         return this->listcmds();
-    else if (option == "-listusers")
+    else if (option == "listusers")
         return this->listusers(fd, nick);
     else
         return sendReply(fd, option);

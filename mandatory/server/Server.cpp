@@ -4,7 +4,7 @@
 
 // volatile sig_atomic_t flag = 0;
 
-Server::Server(uint port , std::string password): _port(port), _password(password)
+Server::Server(uint port , std::string password): _port(port), _password(password), _botnick("bot"), _botusername("yuury")
 {
     initCmds();
 }

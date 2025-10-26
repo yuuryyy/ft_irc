@@ -57,6 +57,9 @@ class Server
 
 			bool							checkPriv;
 
+            std::string                     _botnick;
+            std::string                     _botusername;
+
     public:
             Server(uint port , std::string password);
             ~Server();
@@ -107,7 +110,7 @@ class Server
             const std::string   botParser( void );
             void                help( void );
             void                helpRpl(const std::string &option, const std::string reply[], int size);
-            void                whois( int fd, const std::string &nick);
+            void                whois( int fd);
             void                listcmds( void );
             void                listusers(int fd, const std::string &nick);
             void                BOT( void );

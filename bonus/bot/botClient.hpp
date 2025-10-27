@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   botClient.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuury <yuury@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ychagri <ychagri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 15:17:55 by yuury             #+#    #+#             */
-/*   Updated: 2025/10/27 15:25:12 by yuury            ###   ########.fr       */
+/*   Updated: 2025/10/27 22:22:13 by ychagri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <ctime>
 #include <cerrno>
 #include <algorithm>
+#include <cstdlib>
 
 typedef struct msg
 {

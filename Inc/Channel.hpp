@@ -74,15 +74,11 @@ class Channel {
         bool                                    is_restrectedTopic( void ) const;
         bool                                    is_inviteOnly( void ) const;
         
-
-	// bool	get_t(void);//TODO: I ALREADY IMPLEMENTED THESE TW THEY ARE PRIVATE BCZ I DIDNT USE THEM  OUTSIDE OF CHANNEL
-        // bool	get_i(void);//
         std::string                             args;
         std::string                             changedModes;
         bool                                    brdcast;
         void                                    broadcastReply(const std::string &reply);
-        // bool                                    get_l(void);
-        
+
         std::string& GetName(void);
         void SetName(std::string& name);
         std::string& GetPassword(void);
@@ -91,24 +87,11 @@ class Channel {
 		const std::string getTopic() const;
 	    void setTopic(const std::string& top);
 		bool hasTopic() const;
-		void addInvite(const std::string &nick);
-                
+		void addInvite(const std::string &nick);                
 		bool isInvited(const std::string &nick) const;
-
 		void removeInvite(const std::string &nick);
-
 		void removeMember(const std::string &nick);
-            // std::map<int, Client>::iterator it = _members.find(nick);
-			// if (it != _members.end())
-			// {
-			// 	_members.erase(it);
-			// 	if (_membersCount > 0)
-			// 		_membersCount--;
-			// }
-		// }
-        //bot        // const bool getModes( void ) const;
-        // const bool getModes( void ) const;
-        //get username of ops
+
     };
     
     #endif

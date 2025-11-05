@@ -6,7 +6,7 @@
 /*   By: yuury <yuury@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:17:18 by ychagri           #+#    #+#             */
-/*   Updated: 2025/11/05 13:39:11 by yuury            ###   ########.fr       */
+/*   Updated: 2025/11/05 15:33:08 by yuury            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,18 @@
 
 
 // Standard errors & replies
-#define ERR_NEEDMOREPARAMS(clnt, cmd)     (std::string(":") + SERVERNAME + " 461 " + clnt + " " + cmd + " :Not enough parameters\r\n")
-#define RPL_CHANNELMODEIS(clnt, chnl, mod) (std::string(":") + SERVERNAME + " 324 " + clnt + " " + chnl + " " + mod + "\r\n")
-#define RPL_CREATIONTIME(clnt, chnl, t)   (std::string(":") + SERVERNAME + " 329 " + clnt + " " + chnl + " " + t + "\r\n")
-#define ERR_NOSUCHCHANNEL(clnt, chnl)     (std::string(":") + SERVERNAME + " 403 " + clnt + " " + chnl + " :No such channel\r\n")
-#define ERR_UNKNOWNMODE(clnt, mod)        (std::string(":") + SERVERNAME + " 472 " + clnt + " " + mod + " :is an unknown mode char to me\r\n")
-#define ERR_CHANOPRIVSNEEDED(clnt, chnl)  (std::string(":") + SERVERNAME + " 482 " + clnt + " " + chnl + " :You're not a channel operator\r\n")
-#define ERR_NOTONCHANNEL(clnt, chnl)      (std::string(":") + SERVERNAME + " 442 " + clnt + " " + chnl + " :You're not on that channel\r\n")
+#define ERR_NEEDMOREPARAMS(clnt, cmd)            (std::string(":") + SERVERNAME + " 461 " + clnt + " " + cmd + " :Not enough parameters\r\n")
+#define RPL_CHANNELMODEIS(clnt, chnl, mod)       (std::string(":") + SERVERNAME + " 324 " + clnt + " " + chnl + " " + mod + "\r\n")
+#define RPL_CREATIONTIME(clnt, chnl, t)          (std::string(":") + SERVERNAME + " 329 " + clnt + " " + chnl + " " + t + "\r\n")
+#define ERR_NOSUCHCHANNEL(clnt, chnl)            (std::string(":") + SERVERNAME + " 403 " + clnt + " " + chnl + " :No such channel\r\n")
+#define ERR_UNKNOWNMODE(clnt, mod)               (std::string(":") + SERVERNAME + " 472 " + clnt + " " + mod + " :is an unknown mode char to me\r\n")
+#define ERR_CHANOPRIVSNEEDED(clnt, chnl)         (std::string(":") + SERVERNAME + " 482 " + clnt + " " + chnl + " :You're not a channel operator\r\n")
+#define ERR_NOTONCHANNEL(clnt, chnl)             (std::string(":") + SERVERNAME + " 442 " + clnt + " " + chnl + " :You're not on that channel\r\n")
 #define ERR_USERONCHANNEL()
-#define ERR_NOSUCHNICK(clnt, nkname)      (std::string(":") + SERVERNAME + " 401 " + clnt + " " + nkname + " :No such nick\r\n")
+#define ERR_NOSUCHNICK(clnt, nkname)             (std::string(":") + SERVERNAME + " 401 " + clnt + " " + nkname + " :No such nick\r\n")
 #define ERR_USERNOTINCHANNEL(clnt, nkname, chnl) (std::string(":") + SERVERNAME + " 441 " + clnt + " " + nkname + " " + chnl + " :They aren't on that channel\r\n") 
-#define RPL_MODE(chnl, mod, args)         (std::string(":") + SERVERNAME + " MODE "+ chnl + " " + mod + args + "\r\n")
-#define ERR_NOTREGISTERED(clnt)           (std::string(":") + SERVERNAME + " 451 " + clnt + " :You have not registered\r\n")
+#define RPL_MODE(nick, chnl, mod, args)          (std::string(":") + nick + "!~" + nick + "@" + SERVERNAME + " MODE "+ chnl + " " + mod + args + "\r\n")
+#define ERR_NOTREGISTERED(clnt)                  (std::string(":") + SERVERNAME + " 451 " + clnt + " :You have not registered\r\n")
 
 #define RPL_WELCOME(clnt)                 (std::string(":") + SERVERNAME + " 001 " + clnt + " :Welcome\r\n")
 #define RPL_JOIN(clnt, chnl)              (std::string(":") + SERVERNAME + " JOIN " + clnt + " " + chnl + " :has joined a channel\r\n")

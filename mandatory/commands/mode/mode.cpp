@@ -6,7 +6,7 @@
 /*   By: yuury <yuury@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 01:55:22 by ychagri           #+#    #+#             */
-/*   Updated: 2025/11/05 14:49:01 by yuury            ###   ########.fr       */
+/*   Updated: 2025/11/05 15:14:23 by yuury            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,6 @@ Server::MODE( void )
         channel->changedModes.erase(i);
 
     if (channel->changedModes.empty() == false)
-        channel->broadcastReply(RPL_MODE(channel->GetName(), channel->changedModes, channel->args));
+        channel->broadcastReply(RPL_MODE(nick, channel->GetName(), channel->changedModes, channel->args));
 
 }
